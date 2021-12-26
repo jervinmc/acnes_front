@@ -80,39 +80,18 @@ export default {
     async login() {
       // window.location.href="/dashboard"
       // return
-      // this.isLoaded=true
+      this.isLoaded=true
       var credentials = {
         email: this.email,
         password: this.password,
       };
       try {
-        // var data = qs.stringify({
-        //   grant_type: "client_credentials",
-        // });
-        // alert(data)
-        // var config = {
-        //   method: "post",
-        //   url: "https://api-m.sandbox.paypal.com/v1/oauth2/token",
-        //   headers: {
-        //     Authorization:
-        //       "Basic QWZoa1BDVUZubXlvZnV3TjNPU2ljTzdaODNnS29YbERVbWJhN21laDNHZXd2QjZlQzFuUTc0SnJNQ1NBTnBZeVV1ZHlqRXZaQm9kYS01cS06RUZtREUweVdxcW95VE42THVMZ0Y3V24wajJpWkdxOGdTa1NPR3phTmxmSEtaeTJ1cGwyRmticmlGbGdrNTVfU0dtRlN2SVZnbVZmOWNYZGs=",
-        //     "Content-Type": "application/x-www-form-urlencoded",
-        //     Cookie:
-        //       "cookie_prefs=P%3D1%2CF%3D1%2Ctype%3Dimplicit; enforce_policy=ccpa; ts=vreXpYrS%3D1734306076%26vteXpYrS%3D1639637099%26vt%3Dc1e12b5717dac1200018c0cefffffb00%26vr%3Dc1e12b5717dac1200018c0cefffffaff; ts_c=vr%3Dc1e12b5717dac1200018c0cefffffaff%26vt%3Dc1e12b5717dac1200018c0cefffffb00",
-        //   },
-        //   data:data
-        // };
-        // this.$axios(config)
-        //   .then(function (response) {
-        //     console.log(JSON.stringify(response.data));
-        //   })
-        //   .catch(function (error) {
-        //     console.log(error);
-        //   });
-        // return;
+        var response =await this.$axios.post("auth/login/",credentials)
+        console.log(response)
         localStorage.setItem("token", response.data.access);
+        window.location.href = "/home";
         this.isLoaded = false;
-        window.location.href = "/dashboard";
+        
       } catch (error) {
         alert(error);
         this.snackbar = true;
