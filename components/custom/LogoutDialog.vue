@@ -11,7 +11,7 @@
                 <v-btn color="red" text @click="cancel"> Cancel </v-btn>
             </v-col>
             <v-col>
-                <v-btn color="success" text @click="snackbar = false"> Logout </v-btn>
+                <v-btn color="success" text @click="logout"> Logout </v-btn>
             </v-col>
         </v-row>
       </v-card-actions>
@@ -27,7 +27,7 @@ export default {
           this.$emit("cancel")
       },
       logout(){
-          localStorage.removeItem('access')
+          localStorage.removeItem('token')
           window.location.href="login"
       }
   }

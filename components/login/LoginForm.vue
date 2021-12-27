@@ -64,9 +64,7 @@
     </v-card>
   </div>
 </template>
-
 <script>
-import * as qs from 'qs'
 export default {
   data() {
     return {
@@ -78,22 +76,32 @@ export default {
   },
   methods: {
     async login() {
-      // window.location.href="/dashboard"
-      // return
-      this.isLoaded=true
+      this.isLoaded = true;
       var credentials = {
         email: this.email,
         password: this.password,
       };
       try {
-        var response =await this.$axios.post("auth/login/",credentials)
-        console.log(response)
-        localStorage.setItem("token", response.data.access);
-        window.location.href = "/home";
+        var response = await this.$axios
+          .post("auth/login/", credentials)
+          .then((response) => {
+            localStorage.setItem("token", response.data.access);
+            const users = this.$axios
+              .get(`/users/details/`, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              })
+              .then((users) => {
+                localStorage.setItem("id", users.data.id);
+                localStorage.setItem("email", users.data.email);
+                localStorage.setItem("name", users.data.name);
+                window.location.href = "/home";
+              });
+          });
+
         this.isLoaded = false;
-        
       } catch (error) {
-        alert(error);
         this.snackbar = true;
         this.isLoaded = false;
       }

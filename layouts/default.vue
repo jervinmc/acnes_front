@@ -4,7 +4,7 @@
     <v-app-bar
       hide-on-scroll
       color="transparent"
-      v-if="$route.name != 'login'"
+      v-if="$route.name != 'login' && $route.name != 'beta_updates'"
       :clipped-left="clipped"
       fixed
       elevation="0"
@@ -13,7 +13,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('home')">Home</v-toolbar-title>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('events')">Events</v-toolbar-title>
-      <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('discussionspace')">Discussion Place</v-toolbar-title>
+      <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('discussionspace')">Discussion Space</v-toolbar-title>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('marketplace')">Marketplace</v-toolbar-title>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('reports')">Feedback and reports</v-toolbar-title>
       <v-menu offset-y>
@@ -89,10 +89,10 @@ export default {
   },
   methods:{
     goToProfile(){
-      window.location.href='profile'
+      this.$router.push('/profile')
     },
     route(link){
-      window.location.href=link
+      this.$router.push('/'+link)
     }
   }
 };

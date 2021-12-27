@@ -1,11 +1,15 @@
 export default async function(context){
+    if(context.route.name=='beta_updates'){
+         
+         return
+    }
     if(context.route.name=='index'){
         try {
             await context.$axios.$get('/users/user/',{'headers':{
                'Authorization':`Bearer ${localStorage.getItem('token')}`
              }})
             .then((response)=>{
-                context.redirect('/dashboard')
+                context.redirect('/home')
             })
          
          } catch (error) {
@@ -22,7 +26,7 @@ export default async function(context){
                     
               }})
              .then((response)=>{
-                context.redirect('/dashboard')
+                context.redirect('/home')
              })
              
         } catch (error) {
