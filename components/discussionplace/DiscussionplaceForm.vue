@@ -9,7 +9,7 @@
       </v-row>
       <v-row>
         <v-col class="pa-10">
-          <v-text-field outlined rounded-lg placeholder="Search">
+          <v-text-field outlined rounded-lg placeholder="Search" v-model="search" v-on:keyup.enter="searchData">
           </v-text-field>
         </v-col>
       </v-row>
@@ -84,6 +84,7 @@ export default {
   },
   data() {
     return {
+      search:'',
       isAdd:false,
       dialogAdd: false,
       isLoading:false,
@@ -93,6 +94,7 @@ export default {
 DiscussionplaceAdd   };
   },
   methods:{
+    
     loadData() {
       this.discussionsGetall();
     },
@@ -100,6 +102,19 @@ DiscussionplaceAdd   };
       this.isLoading=true;
       const res = await this.$axios
         .get(`/discussions/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          this.discussions = res.data;
+          this.isLoading=false
+        });
+    },
+    async searchData(){
+      this.isLoading=true;
+      const res = await this.$axios
+        .get(`/discussions?search=${this.search}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

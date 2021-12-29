@@ -59,7 +59,7 @@
 export default {
   props: ["isOpen", "items","isAdd"],
   watch:{
-      items(){
+      items(){  
           this.discussions=this.items
           this.img_holder=this.items.image
       }

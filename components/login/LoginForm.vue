@@ -1,5 +1,6 @@
 <template>
   <div>
+    <signup :isOpen="dialogSignup" @cancel="dialogSignup=false"  />
     <v-snackbar
       top
       absolute
@@ -58,6 +59,19 @@
                 Sign In
               </v-btn>
             </div>
+            <div class="pt-5">
+              <v-btn
+                @click="dialogSignup=true"
+                x-large
+                color="black"
+                width="200"
+                dark
+                outlined
+                height="40"
+              >
+                Sign Up
+              </v-btn>
+            </div>
           </v-col>
         </v-row>
       </div>
@@ -65,13 +79,16 @@
   </div>
 </template>
 <script>
+import Signup from './Signup.vue';
 export default {
+  components: { Signup },
   data() {
     return {
       snackbar: false,
       email: null,
       password: null,
       isLoaded: false,
+      dialogSignup:false
     };
   },
   methods: {
@@ -96,7 +113,10 @@ export default {
                 localStorage.setItem("id", users.data.id);
                 localStorage.setItem("email", users.data.email);
                 localStorage.setItem("name", users.data.name);
-                window.location.href = "/home";
+                localStorage.setItem("image", users.data.image);
+                localStorage.setItem("account_type",users.data.account_type)
+                if(users.data.is_superuser) window.location.href = "/dashboard";
+                else window.location.href = "/home";
               });
           });
 

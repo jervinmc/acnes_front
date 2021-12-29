@@ -1,9 +1,15 @@
 <template>
-  
+  <div>
+      <div>
+          <dashboard-container/>
+      </div>
+  </div>
 </template>
 
 <script>
-export default {
+import DashboardContainer from "../../components/dashboard/DashboardContainer.vue"
+
+export default {  components: { DashboardContainer }
 
 }
 </script>

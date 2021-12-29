@@ -1,15 +1,56 @@
 <template>
   <v-app dark>
+       <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+      <v-list class="black--text mx-3">
+        <v-list-item
+          v-for="(item, i) in items"
+          :key="i"
+          :to="item.to"
+          router
+          exact
+          @click="
+            () => {
+              settings_collapse = false;
+              reports_collapse = false;
+            }
+          "
+        >
+          <v-list-item-icon>
+            <v-icon class="black--text menu-icon" v-text="item.icon"></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title
+              class="black--text menu-item"
+              v-text="item.title"
+            ></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+      <v-divider></v-divider>
+      <v-list class="black--text mx-3">
+        <v-list-item @click="isOpenLogout=true">
+          <v-list-item-icon>
+            <v-icon class="black--text menu-icon">mdi-logout</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title
+              class="black--text menu-item"
+            >
+            Logout
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
     <logout-dialog :isOpenLogout="isOpenLogout" @cancel="isOpenLogout=false"/>
     <v-app-bar
       hide-on-scroll
       color="transparent"
-      v-if="$route.name != 'login' && $route.name != 'beta_updates'"
+      v-if="$route.name != 'login' && $route.name != 'beta_updates' && account_type=='Resident'"
       :clipped-left="clipped"
       fixed
       elevation="0"
     >
-      <!-- <v-app-bar-nav-icon @click.stop="drawer = !drawer" /> -->
       <v-spacer></v-spacer>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('home')">Home</v-toolbar-title>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('events')">Events</v-toolbar-title>
@@ -21,6 +62,38 @@
       <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">
         <img
           src="https://cdn.vuetifyjs.com/images/john.jpg"
+          alt="John"
+        >
+      </v-avatar>
+        </template>
+              <v-list>
+          <v-list-item @click="goToProfile">
+            <v-list-item-title>My Profile</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="isOpenLogout=true">
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-app-bar>
+    <v-app-bar
+      app
+      color="black"
+      v-if="$route.name != 'login' && $route.name != 'beta_updates' && account_type!='Resident'"
+      :clipped-left="clipped"
+      fixed
+      elevation="0"
+    >
+      <v-app-bar-nav-icon color="white" @click.stop="drawer = !drawer"  />
+      <div class="pl-5 white--text text-h6">
+        A Friendly Community and Neighborhood Engagement System
+      </div>
+      <v-spacer></v-spacer>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+      <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">
+        <img
+          :src="profileImage"
           alt="John"
         >
       </v-avatar>
@@ -63,22 +136,37 @@ export default {
     LogoutDialog
   },
   name: "DefaultLayout",
+  created(){
+    this.loadData()
+  },
   data() {
     return {
+      profileImage:'',
       isOpenLogout:false,
       clipped: false,
       drawer: false,
+      account_type:'',
       fixed: false,
       items: [
         {
           icon: "mdi-apps",
-          title: "Welcome",
-          to: "/",
+          title: "Dashboard",
+          to: "/dashboard",
         },
         {
           icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
+          title: "Events",
+          to: "/events_management",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Announcement",
+          to: "/announcement",
+        },
+        {
+          icon: "mdi-chart-bubble",
+          title: "Usermanagement",
+          to: "/usermanagement",
         },
       ],
       miniVariant: false,
@@ -88,6 +176,10 @@ export default {
     };
   },
   methods:{
+    loadData(){
+      this.account_type=localStorage.getItem('account_type')
+      this.profileImage=localStorage.getItem('image')
+    },
     goToProfile(){
       this.$router.push('/profile')
     },
