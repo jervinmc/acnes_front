@@ -4,7 +4,7 @@
       <div align="center" class="text-h6">Navarra</div>
       <div align="center">
         <div class="text-h6">
-          <v-avatar color="primary" size="56">
+          <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">
             <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
           </v-avatar>
         </div>
@@ -24,25 +24,27 @@
         </div>
         <div align="start" class="text-h5 pt-5">
           <v-row>
-            <v-col cols="6"> Vote Now: </v-col>
+            <v-col cols="6"> Purchase now? </v-col>
             <v-spacer></v-spacer>
             <v-col cols="auto">
               <div class="pt-0">
                 <v-btn
+                  @click="addItem"
                   x-large
-                  color="red"
+                  color="black"
                   width="200"
                   dark
                   outlined
                   height="40"
                 >
-                  Downvote
+                  Chat with lister
                 </v-btn>
               </div>
             </v-col>
             <v-col>
               <div class="pt-0">
                 <v-btn
+                  @click="addItem"
                   x-large
                   color="green"
                   width="200"
@@ -50,7 +52,7 @@
                   outlined
                   height="40"
                 >
-                  Upvote
+                  Pay with Pay Maya
                 </v-btn>
               </div>
             </v-col>

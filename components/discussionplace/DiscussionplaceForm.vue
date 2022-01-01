@@ -1,10 +1,30 @@
 <template>
   <div align="center" class="pa-10">
     <discussionplace-add :isOpen="dialogAdd" @refresh="discussionsGetall" @cancel="dialogAdd=false" :isAdd="isAdd" :items="selectedItem"/>
+    <discussionspace-view @cancel="dialogView=false" :isOpen="dialogView" />
     <v-card elevation="2" width="1200" class="pa-5">
       <v-row>
-        <v-col class="pa-5">
-          <span class="text-h4" style="cursor:pointer" @click="addItem"> CREATE A POST </span>
+        <v-col class="pa-4" align-self="center" align="start">
+          <span
+            class="text-h5"
+          >
+            Discussion Space
+          </span>
+        </v-col>
+        <v-col align="end">
+          <div class="pt-5">
+              <v-btn
+                @click="addItem"
+                x-large
+                color="black"
+                width="200"
+                dark
+                outlined
+                height="40"
+              >
+                Add Post
+              </v-btn>
+            </div>
         </v-col>
       </v-row>
       <v-row>
@@ -78,7 +98,9 @@
 
 <script>
 import DiscussionplaceAdd from './DiscussionplaceAdd.vue';
+import DiscussionspaceView from './DiscussionspaceView.vue';
 export default {
+  components: { DiscussionspaceView },
   created(){
     this.loadData()
   },
@@ -89,6 +111,7 @@ export default {
       dialogAdd: false,
       isLoading:false,
       discussions:[],
+      dialogView:false,
       selectedItem:'',
  
 DiscussionplaceAdd   };
@@ -129,7 +152,8 @@ DiscussionplaceAdd   };
       this.dialogAdd=true
     },
     viewItem(val){
-      window.location.href="discussionspace/"+val.id
+      this.dialogView=true;
+      // window.location.href="discussionspace/"+val.id
       // this.dialogAdd=true
       // this.isAdd=false
       // this.selectedItem=val

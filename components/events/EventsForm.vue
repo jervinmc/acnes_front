@@ -1,16 +1,30 @@
 <template>
   <div align="center" class="pa-10">
     <events-add :isOpen="dialogAdd" :isAdd="isAdd" @cancel="dialogAdd=false" @refresh="eventsGetall" />
+    <events-view :isOpen="dialogView" @cancel="dialogView=false" />
     <v-card elevation="2" width="1200" class="pa-5">
       <v-row>
-        <v-col class="pa-5">
+        <v-col class="pa-4" align-self="center" align="start">
           <span
-            class="text-h4"
-            style="cursor: pointer"
-            @click="addItem"
+            class="text-h5"
           >
-            CREATE AN EVENT
+            Event
           </span>
+        </v-col>
+        <v-col align="end">
+          <div class="pt-5">
+              <v-btn
+                @click="addItem"
+                x-large
+                color="black"
+                width="200"
+                dark
+                outlined
+                height="40"
+              >
+                Add Post
+              </v-btn>
+            </div>
         </v-col>
       </v-row>
       <v-row>
@@ -21,13 +35,13 @@
       </v-row>
       <v-row class="px-16">
         <v-col>
-          <div class="text-h4">UP COMING EVENTS</div>
+          <div class="text-h5">UP COMING EVENTS</div>
         </v-col>
         <v-col>
             <v-divider vertical></v-divider>
         </v-col>
         <v-col>
-          <div class="text-h4">COMMUNITY-LED EVENTS</div>
+          <div class="text-h5">COMMUNITY-LED EVENTS</div>
         </v-col>
       </v-row>
       <v-skeleton-loader
@@ -52,6 +66,7 @@
             </v-row>
             <div class="pt-0 pb-5">
               <v-btn
+                @click="dialogView=true"
                 x-large
                 color="black"
                 width="200"
@@ -71,8 +86,9 @@
 
 <script>
 import EventsAdd from './EventsAdd.vue';
+import EventsView from './EventsView.vue';
 export default {
-  components: { EventsAdd },
+  components: { EventsAdd, EventsView },
   created(){
     this.loadData()
   },
@@ -82,6 +98,7 @@ export default {
       isAdd:false,
       events:[],
       isLoading:false,
+      dialogView:false
     };
   },
   methods:{

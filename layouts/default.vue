@@ -154,17 +154,17 @@ export default {
           to: "/dashboard",
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-calendar-multiple",
           title: "Events",
           to: "/events_management",
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-bullhorn",
           title: "Announcement",
           to: "/announcement",
         },
         {
-          icon: "mdi-chart-bubble",
+          icon: "mdi-account-group",
           title: "Usermanagement",
           to: "/usermanagement",
         },

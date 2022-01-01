@@ -28,7 +28,7 @@
       </div>
       <v-col>
         <span class="pt-2 pr-10 pb-10"><b>Upload Image</b></span>
-
+  
         <div class="hover_pointer pt-10">
           <img
             @click="$refs.file.click()"

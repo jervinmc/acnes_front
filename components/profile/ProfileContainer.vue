@@ -9,12 +9,16 @@
         <div class="text-h6">{{ email }}</div>
         <div class="text-h6">Julugan 4 tanza cavite</div>
         <div class="pt-10 text-h5">ABOUT ME</div>
-        <div class="grey--text">
+        <div class="grey--text mb-10">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sodales
           elementum mi non hendrerit. Proin tempor facilisis felis nec ultrices.
           Duis nec ultrices neque. Proin semper ultricies turpis, vel faucibus
           velit sodales vitae. Class aptent taciti sociosqu ad litora torquent
           per conubia nostra, per inceptos himenaeos.
+        </div>
+        <v-divider class="pt"></v-divider>
+        <div class="text-h5 pt-10" align="start">
+          Discussion Space
         </div>
         <v-row>
           <v-col
@@ -32,7 +36,7 @@
                   indeterminate
                 ></v-progress-linear>
               </template>
-              <v-img height="250" :src="index.image"></v-img>
+              <v-img height="50" :src="index.image"></v-img>
               <v-card-text>
                 <div>
                   {{ index.descriptions }}
@@ -68,6 +72,46 @@
             </v-card>
           </v-col>
         </v-row>
+         <v-divider class="pt"></v-divider>
+        <div class="text-h5 py-10" align="start">
+          Events
+        </div>
+        <v-skeleton-loader
+        v-if="isLoading"
+        class="mx-auto"
+        width="1200"
+        type="card"
+      ></v-skeleton-loader>
+      <v-row v-else>
+        <v-col cols="12" v-for="index in events" :key="index" class="pa-10">
+          <v-card rounded-lg elevation="5">
+            <v-row class="pa-10">
+              <v-col cols="auto">
+                <v-img :src="index.image" width="50"></v-img>
+              </v-col>
+              <v-col cols="2">
+                <div>{{index.event_start_date}}</div>
+                <div>{{index.venue}}</div>
+                <div>{{index.event_name}}</div>
+                <div>{{index.descriptions}}</div>
+              </v-col>
+            </v-row>
+            <div class="pt-0 pb-5">
+              <v-btn
+                @click="dialogView=true"
+                x-large
+                color="black"
+                width="200"
+                dark
+                outlined
+                height="40"
+              >
+                View Event
+              </v-btn>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
       </v-card>
     </div>
   </div>
@@ -81,6 +125,7 @@ export default {
       address: "",
       discussions: [],
       isLoading: false,
+      events:[]
     };
   },
   created() {
@@ -92,17 +137,31 @@ export default {
       this.email = localStorage.getItem("email");
       this.address = localStorage.getItem("address");
       this.discussionsGetall();
+      this.eventsGetall();
     },
     async discussionsGetall() {
       this.isLoading = true;
       const res = await this.$axios
-        .get(`/discussions/`, {
+        .get(`/discussions/userid/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
         .then((res) => {
           this.discussions = res.data;
+          this.isLoading = false;
+        });
+    },
+    async eventsGetall() {
+      this.isLoading = true;
+      const res = await this.$axios
+        .get(`/events/userid/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          this.events = res.data;
           this.isLoading = false;
         });
     },
