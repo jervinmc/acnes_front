@@ -3,7 +3,7 @@
         <div>
             <reports-hero/>
         </div>
-        <div>
+        <div style="background-image:url('./Background.png');background-repeat: repeat;">
             <reports-form/>
         </div>
     </div>

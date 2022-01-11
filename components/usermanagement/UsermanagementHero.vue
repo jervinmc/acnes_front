@@ -8,7 +8,7 @@
       class="d-flex justify-center align-center"
     >
       <v-img src="./Events.png" height="180" width="180"> </v-img>
-      <div class="white--text text-h4">Discussion Places</div></v-img
+      <div class="white--text text-h4">Usermanagement</div></v-img
     >
   </div>
 </template> 

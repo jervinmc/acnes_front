@@ -1,6 +1,6 @@
 <template>
   <div align="center" class="pa-10">
-    <v-card elevation="2" width="1200" class="pa-5">
+    <v-card elevation="2" width="900" class="pa-5">
       <v-row>
         <v-col class="pa-5">
           <span

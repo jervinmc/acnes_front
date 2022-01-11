@@ -2,7 +2,7 @@
   <div align="center" class="pa-10">
     <events-add :isOpen="dialogAdd" :isAdd="isAdd" @cancel="dialogAdd=false" @refresh="eventsGetall" />
     <events-view :isOpen="dialogView" @cancel="dialogView=false" />
-    <v-card elevation="2" width="1200" class="pa-5">
+    <v-card elevation="2" width="900" class="pa-5">
       <v-row>
         <v-col class="pa-4" align-self="center" align="start">
           <span
@@ -22,7 +22,7 @@
                 outlined
                 height="40"
               >
-                Add Post
+                Add Event
               </v-btn>
             </div>
         </v-col>
@@ -55,7 +55,7 @@
           <v-card rounded-lg elevation="5">
             <v-row class="pa-10">
               <v-col cols="auto">
-                <v-img :src="index.image" width="250"></v-img>
+                <v-img :src="index.image" width="200" height="200"></v-img>
               </v-col>
               <v-col cols="2">
                 <div>{{index.event_start_date}}</div>

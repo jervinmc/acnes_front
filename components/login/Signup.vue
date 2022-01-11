@@ -6,9 +6,13 @@
       <div>
         <v-text-field outlined v-model="users.email"></v-text-field>
       </div>
-      <div class="text-h6">Name</div>
+      <div class="text-h6">Firstname</div>
       <div>
-        <v-text-field outlined v-model="users.name"></v-text-field>
+        <v-text-field outlined v-model="users.firstname"></v-text-field>
+      </div>
+      <div class="text-h6">Lastname</div>
+      <div>
+        <v-text-field outlined v-model="users.lastname"></v-text-field>
       </div>
       <div class="text-h6">Password</div>
       <div>
@@ -18,6 +22,10 @@
       <div>
         <v-text-field outlined v-model="users.address"></v-text-field>
       </div>
+      <div class="text-h6">Contact Number</div>
+      <div>
+        <v-text-field outlined v-model="users.contact_number"></v-text-field>
+      </div>
       <div class="text-h6">User Type</div>
       <div>
         <v-select
@@ -25,6 +33,10 @@
           v-model="users.account_type"
           :items="['Resident', 'Admin']"
         ></v-select>
+      </div>
+      <div class="text-h6">Descriptions</div>
+      <div>
+        <v-textarea outlined v-model="users.descriptions"></v-textarea>
       </div>
       <v-col>
         <span class="pt-2 pr-10 pb-10"><b>Upload Image</b></span>
@@ -126,6 +138,7 @@ export default {
         form_data.append("email", this.users.email);
         form_data.append("name", this.users.name);
         form_data.append("address", this.users.address);
+        form_data.append("descriptions", this.users.descriptions);
         form_data.append("account_type", this.users.account_type);
         form_data.append("password", this.users.password);
         form_data.append("groups", 1);

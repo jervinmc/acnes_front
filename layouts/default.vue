@@ -46,14 +46,37 @@
     <v-app-bar
       hide-on-scroll
       color="transparent"
-      v-if="$route.name != 'login' && $route.name != 'beta_updates' && account_type=='Resident'"
+      v-if="$route.name != 'login' && $route.name != 'beta_updates' "
       :clipped-left="clipped"
       fixed
       elevation="0"
     >
+      <v-row>
+        <v-col cols="auto">
+          <v-img src="./tree.png" height="50" width="50" contain></v-img>
+        </v-col>
+        <v-col align-self="center" class="white--text text-h6" >
+          DOTCOM.MUNITREE
+        </v-col>
+      </v-row>
       <v-spacer></v-spacer>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('home')">Home</v-toolbar-title>
-      <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('events')">Events</v-toolbar-title>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Events</v-toolbar-title>
+        </template>
+              <v-list>
+          <v-list-item @click="goToProfile">
+            <v-list-item-title>Upcoming Events</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="isOpenLogout=true">
+            <v-list-item-title>Official Events</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="isOpenLogout=true">
+            <v-list-item-title>Community-Led Events</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('discussionspace')">Discussion Space</v-toolbar-title>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('marketplace')">Marketplace</v-toolbar-title>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('reports')">Feedback and reports</v-toolbar-title>
@@ -70,16 +93,19 @@
           <v-list-item @click="goToProfile">
             <v-list-item-title>My Profile</v-list-item-title>
           </v-list-item>
+          <v-list-item @click="route('usermanagement')" v-if="account_type!='Resident'">
+            <v-list-item-title>Usermanagement</v-list-item-title> 
+          </v-list-item>
           <v-list-item @click="isOpenLogout=true">
             <v-list-item-title>Logout</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
     </v-app-bar>
-    <v-app-bar
+    <!-- <v-app-bar
       app
       color="black"
-      v-if="$route.name != 'login' && $route.name != 'beta_updates' && account_type!='Resident'"
+      v-if="$route.name != 'login' && $route.name != 'beta_updates'"
       :clipped-left="clipped"
       fixed
       elevation="0"
@@ -107,7 +133,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
-    </v-app-bar>
+    </v-app-bar> -->
     <v-main>
       <v-container fluid class="pa-0">
         <Nuxt />
@@ -123,9 +149,9 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-footer :absolute="!fixed" app>
+    <!-- <v-footer :absolute="!fixed" app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 

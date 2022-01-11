@@ -7,7 +7,7 @@
         </v-avatar>
         <div class="text-h6">{{ name }}</div>
         <div class="text-h6">{{ email }}</div>
-        <div class="text-h6">Julugan 4 tanza cavite</div>
+        <div class="text-h6">Taguig</div>
         <div class="pt-10 text-h5">ABOUT ME</div>
         <div class="grey--text mb-10">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sodales
@@ -112,6 +112,40 @@
           </v-card>
         </v-col>
       </v-row>
+      <div class="text-h5 py-10" align="start">
+          Marketplace
+        </div>
+      <v-skeleton-loader
+        v-if="isLoading"
+        class="mx-auto"
+        width="1200"
+        type="card"
+      ></v-skeleton-loader>
+        <v-row v-else>
+          <v-col v-for="key in marketplace" :key="key" cols="4" class="pa-5">
+          <v-card class="mx-auto my-12" max-width="374">
+            <template slot="progress">
+              <v-progress-linear
+                color="deep-purple"
+                height="10"
+                indeterminate
+              ></v-progress-linear>
+            </template>
+            <v-img height="250" :src="key.image"></v-img>
+            <v-card-title>{{key.name}}</v-card-title>
+            <v-card-text>
+              <div>
+                {{key.descriptions}}
+              </div>
+            </v-card-text>
+            <v-divider class="mx-4"></v-divider>
+            <v-card-title>Php {{parseFloat((key.price)).toFixed(2)}}</v-card-title>
+            <v-card-actions>
+              <v-btn color="deep-purple lighten-2" text @click="viewItem(key)"> View </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+        </v-row>
       </v-card>
     </div>
   </div>
@@ -125,7 +159,8 @@ export default {
       address: "",
       discussions: [],
       isLoading: false,
-      events:[]
+      events:[],
+      marketplace:[]
     };
   },
   created() {
@@ -138,6 +173,20 @@ export default {
       this.address = localStorage.getItem("address");
       this.discussionsGetall();
       this.eventsGetall();
+      this.marketplaceGetall();
+    },
+    async marketplaceGetall() {
+      this.isLoading = true;
+      const res = await this.$axios
+        .get(`/marketplace/userid/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          this.marketplace = res.data;
+          this.isLoading = false;
+        });
     },
     async discussionsGetall() {
       this.isLoading = true;

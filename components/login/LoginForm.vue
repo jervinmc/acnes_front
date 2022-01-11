@@ -17,39 +17,50 @@
         </v-btn>
       </template>
     </v-snackbar>
-    <v-card width="450" class="rounded-lg py-5" elevation="15">
+    <v-card width="450" class="rounded-lg py-5 pt-16" style="margin-top:200px" color="#1c2833
+" elevation="15">
+    <v-img src="./tree.png" height="300" width="250">
+
+    </v-img>
       <div class="pa-5">
         <div
-          class="pb-10 pt-0 black--text"
+          class="pb-5 pt-0 white--text"
           style="font-size: 27px"
           align="center"
+
         >
-          <b>Login</b>
+          <b>DOT COM.MUNITREE</b>
         </div>
         <v-row>
           <v-col>
-            <div align="start" class="black--text"><b>Username</b></div>
+            <div align="start" class="white--text"><b>Username</b></div>
             <v-text-field
+            color="transparent"
+            background-color="transparent"
               rounded
               @keyup.enter="login"
               v-model="email"
               outlined
+              dark
               dense
             ></v-text-field>
-            <div align="start" class="black--text"><b>Password</b></div>
+            <div align="start" class="white--text"><b>Password</b></div>
             <v-text-field
               rounded
+              color="transparent"
+            background-color="transparent"
               @keyup.enter="login"
               type="password"
               v-model="password"
               outlined
               dense
+              dark
             ></v-text-field>
             <div class="pt-5">
               <v-btn
                 @click="login"
                 x-large
-                color="black"
+                color="white"
                 width="200"
                 dark
                 outlined
@@ -63,7 +74,7 @@
               <v-btn
                 @click="dialogSignup=true"
                 x-large
-                color="black"
+                color="white"
                 width="200"
                 dark
                 outlined
@@ -115,7 +126,7 @@ export default {
                 localStorage.setItem("name", users.data.name);
                 localStorage.setItem("image", users.data.image);
                 localStorage.setItem("account_type",users.data.account_type)
-                if(users.data.is_superuser) window.location.href = "/dashboard";
+                if(users.data.is_superuser) window.location.href = "/home";
                 else window.location.href = "/home";
               });
           });

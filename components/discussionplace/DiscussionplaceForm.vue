@@ -1,8 +1,8 @@
 <template>
   <div align="center" class="pa-10">
-    <discussionplace-add :isOpen="dialogAdd" @refresh="discussionsGetall" @cancel="dialogAdd=false" :isAdd="isAdd" :items="selectedItem"/>
-    <discussionspace-view @cancel="dialogView=false" :isOpen="dialogView" />
-    <v-card elevation="2" width="1200" class="pa-5">
+    <discussionplace-add :isOpen="dialogAdd" @refresh="discussionsGetall" @cancel="dialogAdd=false" :isAdd="isAdd" :items="selectedItem" />
+    <discussionspace-view @cancel="dialogView=false" :isOpen="dialogView" :details="selectedItem" />
+    <v-card elevation="2" width="900" class="pa-5">
       <v-row>
         <v-col class="pa-4" align-self="center" align="start">
           <span
@@ -112,7 +112,7 @@ export default {
       isLoading:false,
       discussions:[],
       dialogView:false,
-      selectedItem:'',
+      selectedItem:{"image":"","descriptions":"","title":"","users":""},
  
 DiscussionplaceAdd   };
   },
@@ -156,7 +156,7 @@ DiscussionplaceAdd   };
       // window.location.href="discussionspace/"+val.id
       // this.dialogAdd=true
       // this.isAdd=false
-      // this.selectedItem=val
+      this.selectedItem=val
     },
   }
 };

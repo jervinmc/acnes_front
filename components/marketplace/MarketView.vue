@@ -1,26 +1,24 @@
 <template>
   <v-dialog v-model="isOpen" width="1000" persistent>
     <v-card class="pa-10">
-      <div align="center" class="text-h6">Navarra</div>
+      <div align="center" class="text-h6">{{details.users.firstname}}</div>
       <div align="center">
         <div class="text-h6">
           <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">
-            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+            <img :src="details.users.image" alt="John" />
           </v-avatar>
         </div>
-        <div>Juan Dela Cruz</div>
-        <div>jervinmc@gmail.com</div>
+        <div>{{details.users.firstname}}</div>
+        <div>{{details.users.email}}</div>
         <div class="pt-10">
           <v-img
-            src="./main_background.jpg"
-            gradient="to top right, rgba(100,115,201,.33), rgba(0,0,0,.9)"
+            :src="details.image"
+            contain
             height="300"
           ></v-img>
         </div>
         <div class="pt-5">
-          An open-area modern house inspired by Japanese elements. Comes with
-          its own swimming pool, furniture decorations, fireplace, and armor
-          stands.
+          {{details.descriptions}}
         </div>
         <div align="start" class="text-h5 pt-5">
           <v-row>
@@ -42,7 +40,14 @@
               </div>
             </v-col>
             <v-col>
-              <div class="pt-0">
+              <div class="pt-10">
+                  <v-img
+                    :src="details.image_qr"
+
+                    height="100"
+                  ></v-img>
+                </div>
+              <!-- <div class="pt-0">
                 <v-btn
                   @click="addItem"
                   x-large
@@ -54,7 +59,7 @@
                 >
                   Pay with Pay Maya
                 </v-btn>
-              </div>
+              </div> -->
             </v-col>
           </v-row>
         </div>
@@ -72,7 +77,7 @@
 
 <script>
 export default {
-  props: ["isOpen", "items", "isAdd"],
+  props: ["isOpen", "items", "isAdd","details"],
   watch: {
     items() {
       this.discussions = this.items;

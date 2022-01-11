@@ -1,8 +1,8 @@
 <template>
   <div align="center" class="pa-10">
     <market-add @refresh="loadData" :isOpen="dialogAdd" @cancel="dialogAdd = false" :items="selectedItem" :isAdd="isAdd" />
-    <market-view :isOpen="dialogView" @cancel="dialogView = false" />
-    <v-card elevation="2" width="1200" class="pa-5">
+    <market-view :isOpen="dialogView" @cancel="dialogView = false" :details="selectedProduct"  />
+    <v-card elevation="2" width="900" class="pa-5">
       <v-row>
         <v-col class="pa-4" align-self="center" align="start">
           <span
@@ -22,7 +22,7 @@
                 outlined
                 height="40"
               >
-                Add Post
+                Add Listing
               </v-btn>
             </div>
         </v-col>
@@ -98,6 +98,8 @@ export default {
       search:'',
       selectedItem:{},
       dialogView:false,
+      selectedProduct:{"image":"","descriptions":"","name":"","users":""},
+      isAdd:true,
     };
   },
   components: { MarketAdd, MarketView },
@@ -108,6 +110,7 @@ export default {
     },
     viewItem(val){
       this.dialogView=true;
+      this.selectedProduct = val;
       // this.dialogAdd=true
       // this.isAdd=false
       // this.selectedItem=val

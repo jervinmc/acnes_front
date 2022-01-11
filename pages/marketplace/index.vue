@@ -1,7 +1,9 @@
 <template>
     <div>
-        <hero/>
-        <div >
+        <div>
+            <hero/>
+        </div>
+        <div style="background-image:url('./Background.png');background-repeat: repeat;" >
             <market-form/>
         </div>
     </div>

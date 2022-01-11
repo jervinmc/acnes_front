@@ -1,10 +1,14 @@
 <template>
   <v-dialog v-model="isOpen" width="1000" persistent>
+  <v-form v-model="valid"
+      ref="form"
+      lazy-validation
+      @submit.prevent="addDiscussions">
     <v-card class="pa-10">
       <div align="center" class="text-h6">Add Post</div>
       <div class="text-h6">Title</div>
       <div>
-        <v-text-field outlined v-model="discussions.title"></v-text-field>
+        <v-text-field :rules="standardRules"  outlined v-model="discussions.title"></v-text-field>
       </div>
       <div class="text-h6">Descriptions</div>
       <div>
@@ -43,7 +47,8 @@
             <v-btn
               color="success"
               text
-              @click="addDiscussions"
+              type="submit"
+          :disabled="!valid"
               :loading="buttonLoad"
             >
               Save
@@ -52,70 +57,76 @@
         </v-row>
       </v-card-actions>
     </v-card>
+  </v-form>
   </v-dialog>
 </template>
 
 <script>
+import validations from "@/utils/validations";
 export default {
-  props: ["isOpen", "items","isAdd"],
-  watch:{
-      items(){  
-          this.discussions=this.items
-          this.img_holder=this.items.image
-      }
+  props: ["isOpen", "items", "isAdd"],
+  watch: {
+    items() {
+      this.discussions = this.items;
+      this.img_holder = this.items.image;
+    },
   },
   data() {
     return {
+      ...validations,
       discussions: [],
       img_holder: "image_placeholder.png",
       image: "",
       url: "",
       buttonLoad: false,
+      valid: false,
     };
   },
   methods: {
-      async addDiscussions() {
-      this.buttonLoad=true
+    async addDiscussions() {
+      this.valid = this.$refs.form.validate();
+      if (!this.valid) {
+        return;
+      }
+      this.buttonLoad = true;
       try {
         let form_data = new FormData();
-        if(this.image!=null && this.image!=''){
+        if (this.image != null && this.image != "") {
           form_data.append("image", this.image);
         }
-        form_data.append("user_id", localStorage.getItem('id'));
+        form_data.append("user_id", localStorage.getItem("id"));
         form_data.append("title", this.discussions.title);
         form_data.append("descriptions", this.discussions.descriptions);
-        if(this.isAdd){
+        if (this.isAdd) {
           const response = await this.$axios
-          .post("/discussions/", form_data, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          })
-          .then(() => {
-            this.buttonLoad=false
-            this.$emit("cancel");
-            this.$emit("refresh");
-          });
-        }
-        else{
+            .post("/discussions/", form_data, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            })
+            .then(() => {
+              this.$refs.form.reset()
+              this.buttonLoad = false;
+              this.$emit("cancel");
+              this.$emit("refresh");
+            });
+        } else {
           const response = await this.$axios
-          .patch(`/discussions/${this.discussions.id}/`, form_data, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          })
-          .then(() => {
-            this.buttonLoad=false
-            this.$emit("cancel");
-            this.$emit("refresh");
-          });
+            .patch(`/discussions/${this.discussions.id}/`, form_data, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            })
+            .then(() => {
+              this.buttonLoad = false;
+              this.$emit("cancel");
+              this.$emit("refresh");
+            });
         }
-        
       } catch (error) {
-        alert(error)
-        this.buttonLoad=false
+        alert(error);
+        this.buttonLoad = false;
       }
-      
     },
     onFileUpload(e) {
       this.image = e;
@@ -140,6 +151,7 @@ export default {
       }
     },
     cancel() {
+      this.$refs.form.reset()
       this.$emit("cancel");
     },
   },

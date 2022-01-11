@@ -9,7 +9,7 @@
           </v-avatar>
         </div>
         <div>Juan Dela Cruz</div>
-        <div>jervinmc@gmail.com</div>
+        <div>john_paolo_zenarosa@dlsu.edu.ph</div>
         <div class="pt-10">
           <v-img
             src="./main_background.jpg"
@@ -26,7 +26,7 @@
           When: 2020-10-10 - 2020-11-10
         </div>
         <div align="start" class="text-h5 pt-5">
-          Where: Julugan 4 tanza cavite
+          Where: Taguig
         </div>
         <div align="start" class="text-h5 pt-5">
           <v-row>

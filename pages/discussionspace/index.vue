@@ -1,7 +1,7 @@
 <template>
   <div>
       <discussionplace-hero/>
-      <div>
+      <div style="background-image:url('./Background.png');background-repeat: repeat;">
           <discussionplace-form/>
       </div>
   </div>

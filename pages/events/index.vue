@@ -3,7 +3,7 @@
         <div>
             <events-hero/>
         </div>
-        <div>
+        <div style="background-image:url('./Background.png');background-repeat: repeat;">
             <events-form/>
         </div>
     </div>

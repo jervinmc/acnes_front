@@ -1,19 +1,23 @@
 <template>
-  <v-img src="./main_background.jpg" light gradient="to top right, rgba(100,115,201,.33), rgba(0,0,0,.9)">
-    <v-sheet color="transparent" height="85vh" class="d-flex justify-center align-center">
-      <div align="center" class="pt-15">
+  <div>
+    <div>
+      <announcement-hero/>
+    </div>
+      <div align="center" class="py-15" style="background-image:url('./Background.png');background-repeat: repeat;">
         <announcement/>
       </div>
-    </v-sheet>
-  </v-img>
+
+
+  </div>
 </template>
 
 <script>
 import Announcement from '../../components/home/Announcement.vue';
+import AnnouncementHero from '../../components/home/AnnouncementHero.vue';
 import LoginForm from '../../components/login/LoginForm.vue';
 
 export default {
-  components: { LoginForm, Announcement },
+  components: { LoginForm, Announcement, AnnouncementHero },
 
 };
 </script>

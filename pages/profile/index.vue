@@ -1,7 +1,7 @@
 <template>
   <div>
     <profile-hero/>
-    <div>
+    <div style="background-image:url('./Background.png');background-repeat: repeat;">
         <profile-container/>
     </div>
   </div>
