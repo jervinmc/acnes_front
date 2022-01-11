@@ -3,7 +3,7 @@
     <div class="pa-16" style="max-width: 1200px">
       <v-card class="pa-16">
         <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">
-          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+          <img :src="profileImage" alt="John" />
         </v-avatar>
         <div class="text-h6">{{ name }}</div>
         <div class="text-h6">{{ email }}</div>
@@ -160,7 +160,8 @@ export default {
       discussions: [],
       isLoading: false,
       events:[],
-      marketplace:[]
+      marketplace:[],
+      profileImage:''
     };
   },
   created() {
@@ -168,9 +169,10 @@ export default {
   },
   methods: {
     loadData() {
-      this.name = localStorage.getItem("name");
+      this.name = localStorage.getItem("firstname")+' '+localStorage.getItem("lastname");
       this.email = localStorage.getItem("email");
       this.address = localStorage.getItem("address");
+      this.profileImage = localStorage.getItem("image");
       this.discussionsGetall();
       this.eventsGetall();
       this.marketplaceGetall();

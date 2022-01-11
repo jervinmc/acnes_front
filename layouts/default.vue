@@ -84,7 +84,7 @@
         <template v-slot:activator="{ on, attrs }">
       <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">
         <img
-          src="https://cdn.vuetifyjs.com/images/john.jpg"
+          :src="profileImage"
           alt="John"
         >
       </v-avatar>

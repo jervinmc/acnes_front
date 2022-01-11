@@ -124,6 +124,8 @@ export default {
                 localStorage.setItem("id", users.data.id);
                 localStorage.setItem("email", users.data.email);
                 localStorage.setItem("name", users.data.name);
+                localStorage.setItem("firstname", users.data.firstname);
+                localStorage.setItem("lastname", users.data.lastname);
                 localStorage.setItem("image", users.data.image);
                 localStorage.setItem("account_type",users.data.account_type)
                 if(users.data.is_superuser) window.location.href = "/home";
