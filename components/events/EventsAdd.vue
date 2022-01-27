@@ -1,5 +1,6 @@
 <template>
   <v-dialog v-model="isOpen" width="1000" persistent >
+    <v-form ref="form">
     <v-card class="pa-10">
       <div align="center" class="text-h6">Add Events</div>
       <div class="text-h6">Name of Event</div>
@@ -86,6 +87,7 @@
         </v-row>
       </v-card-actions>
     </v-card>
+    </v-form>
   </v-dialog>
 </template>
 
@@ -98,20 +100,26 @@ export default {
       this.img_holder = this.items.image;
     },
   },
+  created(){
+    this.loadData()
+  },
   data() {
     return {
-    
+      account_type:'',
       eventDate: false,
       events:[],
       date:[],
       discussions: [],
-      img_holder: "image_placeholder.png",
+      img_holder: "/image_placeholder.png",
       image: "",
       url: "",
       buttonLoad: false,
     };
   },
   methods: {
+    loadData(){
+      this.account_type = localStorage.getItem('account_type')
+    },
     // parseDate(date) {
     //   if (!date) return null;
 
@@ -130,6 +138,8 @@ export default {
         form_data.append("event_start_date", this.date[0]);
         form_data.append("event_end_date", this.date[1]);
         form_data.append("venue", this.events.venue);
+        form_data.append("is_approved", this.account_type=='Admin' ? true : false);
+        form_data.append("event_type", this.account_type=='Admin' ? 'official_event' : 'community_led_event');
         form_data.append("descriptions", this.events.descriptions);
         if (this.isAdd) {
           const response = await this.$axios
@@ -140,6 +150,7 @@ export default {
             })
             .then(() => {
               this.buttonLoad = false;
+              this.$refs.form.reset()
               this.$emit("cancel");
               this.$emit("refresh");
             });

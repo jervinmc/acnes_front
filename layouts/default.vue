@@ -53,7 +53,7 @@
     >
       <v-row>
         <v-col cols="auto">
-          <v-img src="./tree.png" height="50" width="50" contain></v-img>
+          <v-img src="/tree.png" height="50" width="50" contain></v-img>
         </v-col>
         <v-col align-self="center" class="white--text text-h6" >
           DOTCOM.MUNITREE
@@ -66,18 +66,30 @@
           <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Events</v-toolbar-title>
         </template>
               <v-list>
-          <v-list-item @click="goToProfile">
+          <v-list-item @click="route('events/upcoming_events')">
             <v-list-item-title>Upcoming Events</v-list-item-title>
           </v-list-item>
-          <v-list-item @click="isOpenLogout=true">
+          <v-list-item @click="route('events/official_events')">
             <v-list-item-title>Official Events</v-list-item-title>
           </v-list-item>
-          <v-list-item @click="isOpenLogout=true">
+          <v-list-item @click="route('events/community_events')">
             <v-list-item-title>Community-Led Events</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('discussionspace')">Discussion Space</v-toolbar-title>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Discussion Space</v-toolbar-title>
+        </template>
+              <v-list>
+          <v-list-item @click="route('discussionspace_admin')">
+            <v-list-item-title>Discussion Space</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="route('discussionspace')">
+            <v-list-item-title>Discussion Space Resident</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('marketplace')">Marketplace</v-toolbar-title>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('reports')">Feedback and reports</v-toolbar-title>
       <v-menu offset-y>
@@ -93,6 +105,9 @@
           <v-list-item @click="goToProfile">
             <v-list-item-title>My Profile</v-list-item-title>
           </v-list-item>
+           <v-list-item @click="route('edit_profile')">
+            <v-list-item-title>Edit Profile</v-list-item-title>
+          </v-list-item>
           <v-list-item @click="route('usermanagement')" v-if="account_type!='Resident'">
             <v-list-item-title>Usermanagement</v-list-item-title> 
           </v-list-item>
@@ -102,38 +117,6 @@
         </v-list>
       </v-menu>
     </v-app-bar>
-    <!-- <v-app-bar
-      app
-      color="black"
-      v-if="$route.name != 'login' && $route.name != 'beta_updates'"
-      :clipped-left="clipped"
-      fixed
-      elevation="0"
-    >
-      <v-app-bar-nav-icon color="white" @click.stop="drawer = !drawer"  />
-      <div class="pl-5 white--text text-h6">
-        A Friendly Community and Neighborhood Engagement System
-      </div>
-      <v-spacer></v-spacer>
-      <v-menu offset-y>
-        <template v-slot:activator="{ on, attrs }">
-      <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">
-        <img
-          :src="profileImage"
-          alt="John"
-        >
-      </v-avatar>
-        </template>
-              <v-list>
-          <v-list-item @click="goToProfile">
-            <v-list-item-title>My Profile</v-list-item-title>
-          </v-list-item>
-          <v-list-item @click="isOpenLogout=true">
-            <v-list-item-title>Logout</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-    </v-app-bar> -->
     <v-main>
       <v-container fluid class="pa-0">
         <Nuxt />
@@ -210,7 +193,7 @@ export default {
       this.$router.push('/profile')
     },
     route(link){
-      this.$router.push('/'+link)
+      window.location.href='/'+link
     }
   }
 };

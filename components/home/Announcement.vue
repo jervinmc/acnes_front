@@ -1,47 +1,67 @@
 <template>
-  <v-card elevation="5" width="700" class="pa-16">
-    <div align="center" class="text-h5 pa-5">Announcements</div>
-      <div align="center"> 
-        {{ announcement.length!=0 ? announcement[index].descriptions : 'Data will be displated here.' }}
-      </div>
-
-    <v-chip-group
-      active-class="deep-purple accent-4 white--text"
-      class="pt-10"
-      column
-    >
-      <v-chip>Tag 1</v-chip>
-
-      <v-chip>Tag 2</v-chip>
-
-      <v-chip>Tag 3</v-chip>
-
-      <v-chip>Tag 4</v-chip>
-    </v-chip-group>
-    <v-row class="pa-5">
-      <v-col align="start">
-        <div>
-          <v-icon> mdi-arrow-left </v-icon>
-        </div>
-      </v-col>
-      <v-col align="end">
-        <div>
-          <v-icon> mdi-arrow-right </v-icon>
-        </div>
-      </v-col>
-    </v-row>
-    <div class="pt-15">
-      <v-btn x-large color="black" width="200" dark outlined height="40">
-        View more
+  <v-card elevation="5" width="1000" class="pa-10">
+    <announcement-add
+      :isOpen="dialogAdd"
+      :isAdd="isAdd"
+      @cancel="dialogAdd = false"
+      @refresh="announcementGetall"
+    />
+    <div class="mb-10">
+      <v-btn
+        v-if="this.account_type=='Admin'"
+        x-large
+        color="black"
+        width="200"
+        @click="dialogAdd = true"
+        outlined
+        height="40"
+        :loading="isLoaded"
+      >
+        Add Announcement
       </v-btn>
+    </div>
+    <div  class="pa-5" v-for="item in announcement" :key="item">
+      <v-card width="700" color="#2d3638" class="pa-5" >
+      <v-row>
+        <v-col cols="6">
+          <v-img :src="item.image" height="300"> </v-img>
+        </v-col>
+        <v-col align="center">
+          <div class="white--text text-h5 mb-10">
+            <b>{{item.title}}</b>
+          </div>
+          <div class="white--text">
+           {{item.descriptions}}
+          </div>
+          <div class="pt-5">
+            <v-btn
+              @click="login"
+              x-large
+              color="white"
+              width="200"
+              dark
+              outlined
+              height="40"
+              :loading="isLoaded"
+            >
+              View More
+            </v-btn>
+          </div>
+        </v-col>
+      </v-row>
+    </v-card>
     </div>
   </v-card>
 </template>
 
 <script>
+import AnnouncementAdd from "../announcement/AnnouncementAdd.vue";
 export default {
+  components: { AnnouncementAdd },
   data() {
     return {
+      isAdd: true,
+      dialogAdd: false,
       index: 0,
       announcement: [],
       isLoading: false,
@@ -52,6 +72,7 @@ export default {
   },
   methods: {
     loadData() {
+      this.account_type = localStorage.getItem("account_type");
       this.announcementGetall();
     },
     async announcementGetall() {

@@ -1,5 +1,23 @@
 <template>
   <div align="center" class="pa-10">
+    <v-dialog v-model="deleteConfirmation" width="500" persistent>
+    <v-card class="pa-10">
+    <div align="center" class="text-h6">Confirmation</div>
+    <div align="center" class="pa-10">
+        Are you sure you want to delete this item?
+    </div>
+      <v-card-actions>
+        <v-row align="center">
+            <v-col align="end">
+                <v-btn color="red" text @click="deleteConfirmation=false"> Cancel </v-btn>
+            </v-col>
+            <v-col>
+                <v-btn color="success" text :loading="buttonLoad" @click="Delete"> Confirm </v-btn>
+            </v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
     <discussionplace-add :isOpen="dialogAdd" @refresh="discussionsGetall" @cancel="dialogAdd=false" :isAdd="isAdd" :items="selectedItem" />
     <discussionspace-view @cancel="dialogView=false" :isOpen="dialogView" :details="selectedItem" />
     <v-card elevation="2" width="900" class="pa-5">
@@ -33,13 +51,13 @@
           </v-text-field>
         </v-col>
       </v-row>
-      <v-chip-group
+      <!-- <v-chip-group
       active-class="deep-purple accent-4 white--text"
       class="pt-10"
       column
     >
       <v-chip v-for="index in 30" :key="index">Tag {{index}}</v-chip>
-    </v-chip-group>
+    </v-chip-group> -->
      <v-skeleton-loader
         v-if="isLoading"
         class="mx-auto"
@@ -70,7 +88,7 @@
             <v-card-title>Tags</v-card-title>
 
             <v-card-text>
-              <v-chip-group
+              <!-- <v-chip-group
                 active-class="deep-purple accent-4 white--text"
                 column
               >
@@ -81,13 +99,16 @@
                 <v-chip>8:00PM</v-chip>
 
                 <v-chip>9:00PM</v-chip>
-              </v-chip-group>
+              </v-chip-group> -->
             </v-card-text>
 
             <v-card-actions>
               <v-btn color="deep-purple lighten-2" text @click="viewItem(index)">
                 View
               </v-btn>
+              <div align="end" v-if="account_type=='Admin'">
+                <v-icon @click="deleteItem(index)" color="red">mdi-delete</v-icon>
+              </div>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -107,18 +128,43 @@ export default {
   data() {
     return {
       search:'',
+      account_type:'',
       isAdd:false,
       dialogAdd: false,
       isLoading:false,
       discussions:[],
       dialogView:false,
+      selectedItem:[],
+      deleteConfirmation:false,
+      buttonLoad:false,
       selectedItem:{"image":"","descriptions":"","title":"","users":""},
  
 DiscussionplaceAdd   };
   },
   methods:{
-    
+   async Delete(){
+      this.buttonLoad=true
+      const res = await this.$axios
+        .delete(`/discussions/${this.selectedItem.id}/`,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          
+          this.loadData()
+          this.deleteConfirmation=false
+          this.isLoading=false
+          this.buttonLoad=false
+        });
+    },
+    deleteItem(val){
+      this.selectedItem = val
+      this.deleteConfirmation=true
+    },
     loadData() {
+      this.discussions=[]
+      this.account_type = localStorage.getItem('account_type')
       this.discussionsGetall();
     },
     async discussionsGetall() {

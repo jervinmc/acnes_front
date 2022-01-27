@@ -2,7 +2,7 @@
   <v-card elevation="5">
     <v-row>
       <v-col align="start" class="pa-10 text-h5">
-        <b>Usermanagement</b>
+        <b>Discussion Space</b>
       </v-col>
     </v-row>
     <v-data-table
@@ -56,12 +56,8 @@ export default {
       users: [],
       headers: [
         { text: "ID", value: "id" },
-        { text: "First Name", value: "firstname" },
+        { text: "", value: "firstname" },
         { text: "Last Name", value: "lastname" },
-        { text: "Address", value: "address" },
-        { text: "Account Type", value: "account_type" },
-        { text: "email", value: "email" },
-        { text: "Is Active", value: "is_active" },
         { text: "Actions", value: "opt" },
         ``,
       ],

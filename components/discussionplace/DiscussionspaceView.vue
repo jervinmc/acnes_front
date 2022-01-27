@@ -54,6 +54,46 @@
           </v-row>
         </div>
       </div>
+      <div class="text-h6 pt-10">
+        Comments
+      </div>
+      <v-divider></v-divider>
+      <v-textarea outlined v-model="comments.comments"></v-textarea>
+      <div>
+        <v-col>
+              <div class="pt-0">
+                <v-btn
+                  x-large
+                  color="green"
+                  width="200"
+                  dark
+                  outlined
+                  :loading="buttonLoadComment"
+                  height="40"
+                  @click="addComments"
+                >
+                  Comment
+                </v-btn>
+              </div>
+            </v-col>
+      </div>
+
+      <v-divider></v-divider>
+      <div>
+       <v-row v-for="item in comments_data" :key="item">
+          <v-col cols="auto">
+            <v-avatar color="primary" size="56">
+            <img :src="details.users.image" alt="John" />
+          </v-avatar>
+          </v-col>
+          <v-col align-self="center">
+            <b>{{item.email}}</b>
+            <div>
+              {{item.comments}}
+            </div>
+          </v-col>
+         </v-row>  
+      </div>
       <v-card-actions class="pt-10">
         <v-row align="center">
           <v-col align="end">
@@ -69,30 +109,68 @@
 export default {
   props: ["isOpen", "items", "isAdd","details"],
   watch: {
-    items() {
-      this.discussions = this.items;
-      this.img_holder = this.items.image;
+  async  details() {
+      // this.discussions = this.items;
+      // this.img_holder = this.items.image;
+      this.commentsGetall()
     },
   },
   data() {
     return {
+      buttonLoadComment:false,
+      comments:[],
       eventDate: false,
       events: [],
       date: [],
       discussions: [],
       img_holder: "image_placeholder.png",
       image: "",
+      comments_data:[],
       url: "",
       buttonLoad: false,
     };
   },
   methods: {
-    // parseDate(date) {
-    //   if (!date) return null;
+  async  commentsGetall(){
+      const res = await this.$axios
+        .post(`/comments_discussion/`,{"id":this.details.id}, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          this.comments_data = res.data;
+          this.isLoading=false
+        });
 
-    //   const [month, day, year] = date.split("/");
-    //   return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
-    // },
+    },
+     async addComments() {
+      this.buttonLoadComment = true;
+      try {
+        let form_data = new FormData();
+        form_data.append("user_id", localStorage.getItem("id"));
+        form_data.append("comments", this.comments.comments);
+        form_data.append("email", localStorage.getItem("email"));
+        form_data.append("discussion_id", this.details.id);
+  
+          const response = await this.$axios
+            .post("/comments/", form_data, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            })
+            .then(() => {
+              this.commentsGetall()
+              this.comments.comments =''
+                this.buttonLoadComment = false;
+            });
+  
+      } catch (error) {
+        alert(error)
+        this.commentsGetall()
+        this.buttonLoadComment = false;
+      }
+    },
     async addEvents() {
       this.buttonLoad = true;
       try {

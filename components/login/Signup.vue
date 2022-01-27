@@ -16,7 +16,7 @@
       </div>
       <div class="text-h6">Password</div>
       <div>
-        <v-text-field outlined v-model="users.password"></v-text-field>
+        <v-text-field outlined v-model="users.password" type="password"></v-text-field>
       </div>
       <div class="text-h6">Address</div>
       <div>
@@ -140,6 +140,8 @@ export default {
         form_data.append("address", this.users.address);
         form_data.append("descriptions", this.users.descriptions);
         form_data.append("account_type", this.users.account_type);
+        form_data.append("firstname", this.users.firstname);
+        form_data.append("lastname", this.users.lastname);
         form_data.append("password", this.users.password);
         form_data.append("groups", 1);
         form_data.append("is_superuser",this.users.account_type!='Resident' ? true : false);

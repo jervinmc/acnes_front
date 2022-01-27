@@ -1,7 +1,25 @@
 <template>
   <div align="center" class="pa-10">
+    <v-dialog v-model="approveConfirmation" width="500" persistent>
+    <v-card class="pa-10">
+    <div align="center" class="text-h6">Confirmation</div>
+    <div align="center" class="pa-10">
+        Are you sure you want to approve?
+    </div>
+      <v-card-actions>
+        <v-row align="center">
+            <v-col align="end">
+                <v-btn color="red" text @click="approveConfirmation=false"> Cancel </v-btn>
+            </v-col>
+            <v-col>
+                <v-btn color="success" text :loading="buttonLoad" @click="approve"> Confirm </v-btn>
+            </v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
     <events-add :isOpen="dialogAdd" :isAdd="isAdd" @cancel="dialogAdd=false" @refresh="eventsGetall" />
-    <events-view :isOpen="dialogView" @cancel="dialogView=false" />
+    <events-view v-if="dialogView" :isOpen="dialogView" @cancel="dialogView=false" :items="selectedItem" />
     <v-card elevation="2" width="900" class="pa-5">
       <v-row>
         <v-col class="pa-4" align-self="center" align="start">
@@ -33,17 +51,6 @@
           </v-text-field>
         </v-col>
       </v-row>
-      <v-row class="px-16">
-        <v-col>
-          <div class="text-h5">UP COMING EVENTS</div>
-        </v-col>
-        <v-col>
-            <v-divider vertical></v-divider>
-        </v-col>
-        <v-col>
-          <div class="text-h5">COMMUNITY-LED EVENTS</div>
-        </v-col>
-      </v-row>
       <v-skeleton-loader
         v-if="isLoading"
         class="mx-auto"
@@ -57,16 +64,17 @@
               <v-col cols="auto">
                 <v-img :src="index.image" width="200" height="200"></v-img>
               </v-col>
-              <v-col cols="2">
-                <div>{{index.event_start_date}}</div>
-                <div>{{index.venue}}</div>
-                <div>{{index.event_name}}</div>
-                <div>{{index.descriptions}}</div>
+              <v-spacer></v-spacer>
+              <v-col cols="7" align="start">
+                <div><b>{{index.event_start_date}}</b></div>
+                <div><b>{{index.venue}}</b></div>
+                <div><b>{{index.event_name}}</b></div>
+                <div><b>{{index.descriptions}}</b></div>
               </v-col>
             </v-row>
             <div class="pt-0 pb-5">
               <v-btn
-                @click="dialogView=true"
+                @click="viewEvent(index)"
                 x-large
                 color="black"
                 width="200"
@@ -76,6 +84,9 @@
               >
                 View Event
               </v-btn>
+            </div>
+            <div align="end" class="pa-10" v-if="account_type=='Admin' && event_type=='community_led_events'">
+              <v-icon @click="approveEvent(index)" size="40" :color="index.is_approved ? 'green' : 'grey'">mdi-check</v-icon>
             </div>
           </v-card>
         </v-col>
@@ -94,21 +105,53 @@ export default {
   },
   data() {
     return {
+      buttonLoad:false,
       dialogAdd: false,
       isAdd:false,
       events:[],
       isLoading:false,
-      dialogView:false
+      dialogView:false,
+      selectedItem:[],
+      account_type:'',
+      approveConfirmation:false,
     };
   },
+  props:['event_type'],
   methods:{
+    viewEvent(val){
+      this.selectedItem = val
+      this.dialogView=true
+    },
+    async approve(){
+      this.buttonLoad=true
+      const res = await this.$axios
+        .patch(`/events/${this.selectedItem.id}/`, {"is_approved":true},{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          this.events = res.data;
+          this.loadData()
+          this.approveConfirmation=false
+          this.isLoading=false
+          this.buttonLoad=false
+        });
+    },
+    approveEvent(val){
+      if(val.is_approved) return
+      this.selectedItem=val
+      this.approveConfirmation = true
+    },
     loadData() {
+      this.account_type = localStorage.getItem('account_type')
       this.eventsGetall();
     },
     async eventsGetall() {
-      this.isLoading=true;
-      const res = await this.$axios
-        .get(`/events/`, {
+       this.isLoading=true;
+      if(this.event_type == 'upcoming_events'){
+         const res = await this.$axios
+        .get(`/upcoming/events/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -117,6 +160,33 @@ export default {
           this.events = res.data;
           this.isLoading=false
         });
+      }
+      else if(this.event_type == 'official_events'){
+         const res = await this.$axios
+        .get(`/official/events/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          this.events = res.data;
+          this.isLoading=false
+        });
+      }
+      else if(this.event_type == 'community_led_events'){
+         const res = await this.$axios
+        .get(`/community/events/`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          this.events = res.data;
+          this.isLoading=false
+        });
+      }
+     
+     
     },
     addItem(){
       this.dialogAdd = true
