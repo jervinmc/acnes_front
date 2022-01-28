@@ -48,13 +48,14 @@
             <v-col>
               <div class="pt-0">
                 <v-btn
-                  @click="addItem"
+                  @click="going"
                   x-large
                   color="green"
                   width="200"
                   dark
                   outlined
                   height="40"
+         
                 >
                   Going
                 </v-btn>
@@ -96,6 +97,13 @@ export default {
     };
   },
   methods: {
+    async going(){
+        await this.$axios.patch(`/events/${this.items.id}/`,{no_going:1+parseInt(this.items.no_going)},{
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+    },
     // parseDate(date) {
     //   if (!date) return null;
 

@@ -82,7 +82,7 @@
           <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Discussion Space</v-toolbar-title>
         </template>
               <v-list>
-          <v-list-item @click="route('discussionspace_admin')">
+          <v-list-item v-if="account_type=='Admin'" @click="route('discussionadmin')">
             <v-list-item-title>Discussion Space</v-list-item-title>
           </v-list-item>
           <v-list-item @click="route('discussionspace')">

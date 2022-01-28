@@ -1,14 +1,8 @@
 <template>
-  <div v-if="account_type!='Admin'">
+  <div >
       <discussionplace-hero/>
       <div style="background-image:url('./Background.png');background-repeat: repeat;">
           <discussionplace-form/>
-      </div>
-  </div>
-  <div v-else>
-      <discussionplace-hero/>
-      <div style="background-image:url('./Background.png');background-repeat: repeat;">
-          <discussion-admin-container />
       </div>
   </div>
 </template>

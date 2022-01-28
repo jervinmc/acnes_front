@@ -29,7 +29,7 @@
             Discussion Space
           </span>
         </v-col>
-        <v-col align="end">
+        <v-col align="end" v-if="account_type!='Admin'">
           <div class="pt-5">
               <v-btn
                 @click="addItem"
@@ -65,7 +65,8 @@
         type="card"
       ></v-skeleton-loader>
       <v-row v-else>
-        <v-col v-for="index in discussions" :key="index" cols="4" class="pa-5">
+        <!--eslint-disable-->
+        <v-col v-if="index.is_active" v-for="index in discussions" :key="index" cols="4" class="pa-5">
           <v-card class="mx-auto my-12" max-width="374">
             <v-card-title>{{index.title}}</v-card-title>
             <template slot="progress">

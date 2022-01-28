@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div align="center">
     <profile-hero />
     <div style="background-image:url('./Background.png');background-repeat: repeat;">
         <edit-profile />

@@ -7,7 +7,7 @@
       <div>
         <v-text-field outlined v-model="events.event_name"></v-text-field>
       </div>
-      <div class="text-h6">Start and End Date</div>
+      <div class="text-h6">Start Date</div>
       <div>
         <v-menu
           ref="eventDate"
@@ -32,11 +32,42 @@
           <v-date-picker
             v-model="date"
             no-title
-            range
+            
          
           ></v-date-picker>
         </v-menu>
       </div>
+       <div class="text-h6">End Date</div>
+      <div>
+        <v-menu
+          ref="eventDate1"
+          v-model="eventDate1"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          max-width="290px"
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date1"
+              outlined
+              label="Date"
+              persistent-hint
+              v-bind="attrs"
+              @blur="date = date"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            v-model="date1"
+            no-title
+            
+         
+          ></v-date-picker>
+        </v-menu>
+      </div>
+      
       <div class="text-h6">Venue</div>
       <div>
         <v-text-field outlined v-model="events.venue"></v-text-field>
@@ -105,10 +136,12 @@ export default {
   },
   data() {
     return {
+      eventDate1:false,
       account_type:'',
       eventDate: false,
       events:[],
-      date:[],
+      date:'',
+      date1:'',
       discussions: [],
       img_holder: "/image_placeholder.png",
       image: "",
@@ -135,8 +168,8 @@ export default {
         }
         form_data.append("user_id", localStorage.getItem("id"));
         form_data.append("event_name", this.events.event_name);
-        form_data.append("event_start_date", this.date[0]);
-        form_data.append("event_end_date", this.date[1]);
+        form_data.append("event_start_date", this.date);
+        form_data.append("event_end_date", this.date);
         form_data.append("venue", this.events.venue);
         form_data.append("is_approved", this.account_type=='Admin' ? true : false);
         form_data.append("event_type", this.account_type=='Admin' ? 'official_event' : 'community_led_event');

@@ -70,6 +70,8 @@
                 <div><b>{{index.venue}}</b></div>
                 <div><b>{{index.event_name}}</b></div>
                 <div><b>{{index.descriptions}}</b></div>
+                <div class="green--text"><b>Going {{index.no_going}}</b></div>
+                <div><b>Interested: {{index.no_interested}}</b></div>
               </v-col>
             </v-row>
             <div class="pt-0 pb-5">

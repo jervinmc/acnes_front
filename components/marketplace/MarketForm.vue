@@ -1,5 +1,23 @@
 <template>
   <div align="center" class="pa-10">
+     <v-dialog v-model="isOpenDelete" width="500" persistent>
+    <v-card class="pa-10">
+    <div align="center" class="text-h6">Delete</div>
+    <div align="center" class="pa-10">
+        Would you like to delete this item?
+    </div>
+      <v-card-actions>
+        <v-row align="center">
+            <v-col align="end">
+                <v-btn color="red" text @click="isOpenDelete=false" > Cancel </v-btn>
+            </v-col>
+            <v-col>
+                <v-btn color="success" text :loading="buttonLoad" @click="deleteItem"> Delete </v-btn>
+            </v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
     <market-add @refresh="loadData" :isOpen="dialogAdd" @cancel="dialogAdd = false" :items="selectedItem" :isAdd="isAdd" />
     <market-view :isOpen="dialogView" @cancel="dialogView = false" :details="selectedProduct"  />
     <v-card elevation="2" width="900" class="pa-5">
@@ -11,7 +29,7 @@
             Market Place
           </span>
         </v-col>
-        <v-col align="end">
+        <v-col align="end" v-if="account_type!='Admin'">
           <div class="pt-5">
               <v-btn
                 @click="addItem"
@@ -75,6 +93,7 @@
             <v-card-title>Php {{parseFloat((key.price)).toFixed(2)}}</v-card-title>
             <v-card-actions>
               <v-btn color="deep-purple lighten-2" text @click="viewItem(key)"> View </v-btn>
+              <v-icon v-if="account_type=='Admin'" @click="selectDeleteItem(key)" color="red">mdi-delete</v-icon>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -95,7 +114,11 @@ export default {
       dialogAdd: false,
       marketplace: [],
       isLoading:false,
+      isOpenDelete:false,
+      buttonLoading:false,
       search:'',
+      account_type:'',
+      id:'',
       selectedItem:{},
       dialogView:false,
       selectedProduct:{"image":"","descriptions":"","name":"","users":""},
@@ -104,6 +127,24 @@ export default {
   },
   components: { MarketAdd, MarketView },
   methods: {
+  selectDeleteItem(item){
+    this.id=item.id
+    this.isOpenDelete=true
+  },
+  async  deleteItem(){
+      this.buttonLoading=true
+        await this.$axios.delete(`/marketplace/${this.id}/`,{
+          headers:{
+            Authorization:`Bearer ${localStorage.getItem("token")}`
+          }
+        })
+        .then(()=>{
+            alert('Successfully Deleted')
+            this.buttonLoading=false
+            this.isOpenDelete=false
+            this.marketplaceGetall()
+        })
+    },
     addItem(){
       this.dialogAdd=true
       this.isAdd=true
@@ -116,6 +157,7 @@ export default {
       // this.selectedItem=val
     },
     loadData() {
+      this.account_type=localStorage.getItem('account_type')
       this.marketplaceGetall();
     },
     async marketplaceGetall() {
