@@ -29,7 +29,7 @@
             Event
           </span>
         </v-col>
-        <v-col align="end">
+        <v-col align="end" v-if="$route.name!='events-upcoming_events'">
           <div class="pt-5">
               <v-btn
                 @click="addItem"
@@ -59,14 +59,14 @@
       ></v-skeleton-loader>
       <v-row v-else>
         <v-col cols="12" v-for="index in events" :key="index" class="pa-10">
-          <v-card rounded-lg elevation="5">
+          <v-card rounded-lg elevation="5" v-if="index.is_approved">
             <v-row class="pa-10">
               <v-col cols="auto">
                 <v-img :src="index.image" width="200" height="200"></v-img>
               </v-col>
               <v-spacer></v-spacer>
               <v-col cols="7" align="start">
-                <div><b>{{index.event_start_date}}</b></div>
+                <div><b>{{formatDate(index.event_start_date)}}</b></div>
                 <div><b>{{index.venue}}</b></div>
                 <div><b>{{index.event_name}}</b></div>
                 <div><b>{{index.descriptions}}</b></div>
@@ -100,6 +100,7 @@
 <script>
 import EventsAdd from './EventsAdd.vue';
 import EventsView from './EventsView.vue';
+import moment from "moment";
 export default {
   components: { EventsAdd, EventsView },
   created(){
@@ -120,6 +121,9 @@ export default {
   },
   props:['event_type'],
   methods:{
+    formatDate(val){
+      return moment(String(val)).format('YYYY-MM-DD HH:mm')
+    },
     viewEvent(val){
       this.selectedItem = val
       this.dialogView=true

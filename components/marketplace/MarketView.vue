@@ -1,5 +1,11 @@
 <template>
   <v-dialog v-model="isOpen" width="1000" persistent>
+    <v-dialog v-model="openQrCode" width="350">
+      <v-img :src="details.image" height="350" width="350">
+
+      </v-img>
+
+    </v-dialog>
     <v-card class="pa-10">
       <div align="center" class="text-h6">{{details.users.firstname}}</div>
       <div align="center">
@@ -27,7 +33,7 @@
             <v-col cols="auto">
               <div class="pt-0">
                 <v-btn
-                  @click="addItem"
+                  @click="contactNow(details)"
                   x-large
                   color="black"
                   width="200"
@@ -39,7 +45,22 @@
                 </v-btn>
               </div>
             </v-col>
-            <v-col>
+             <v-col cols="auto">
+              <div class="pt-0">
+                <v-btn
+                  @click="openQrCode=true"
+                  x-large
+                  color="black"
+                  width="220"
+                  dark
+                  outlined
+                  height="40"
+                >
+                  View Paymaya QR Code
+                </v-btn>
+              </div>
+            </v-col>
+            <!-- <v-col>
               <div class="pt-10">
                   <v-img
                     :src="details.image_qr"
@@ -47,20 +68,8 @@
                     height="100"
                   ></v-img>
                 </div>
-              <!-- <div class="pt-0">
-                <v-btn
-                  @click="addItem"
-                  x-large
-                  color="green"
-                  width="200"
-                  dark
-                  outlined
-                  height="40"
-                >
-                  Pay with Pay Maya
-                </v-btn>
-              </div> -->
-            </v-col>
+       
+            </v-col> -->
           </v-row>
         </div>
       </div>
@@ -86,6 +95,7 @@ export default {
   },
   data() {
     return {
+      openQrCode:false,
       eventDate: false,
       events: [],
       date: [],
@@ -97,6 +107,27 @@ export default {
     };
   },
   methods: {
+    
+    async contactNow(){
+
+      const responses1 = this.$axios
+          .post(
+            `/channel/`,
+            {
+              customer_id: localStorage.getItem('id'),
+              seller_id: this.details.user_id,
+              channel:  Math.random().toString(36).slice(2),
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            }
+          )
+          .then(() => {
+            window.location.href="/messages"
+          })
+    },
     // parseDate(date) {
     //   if (!date) return null;
 

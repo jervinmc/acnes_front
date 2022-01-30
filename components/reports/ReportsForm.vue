@@ -1,7 +1,10 @@
 <template>
   <div align="center" class="pa-10">
     <v-card elevation="2" width="900" class="pa-5">
-      <v-row>
+    <div style="height:350px">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfTLNWTsRAlZhpqzf5_3Ua8zUuDgIeOLZBEZYqC-x_YQqpe2Q/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">Google Forms is Loading…</iframe>
+    </div>
+      <!-- <v-row>
         <v-col class="pa-5">
           <span
             class="text-h4"
@@ -44,7 +47,7 @@
               >
                 Submit
               </v-btn>
-            </div>
+            </div> -->
     </v-card>
   </div>
 </template>

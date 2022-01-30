@@ -1,123 +1,162 @@
 <template>
-  <v-dialog v-model="isOpen" width="1000" persistent >
+  <v-dialog v-model="isOpen" width="1000" persistent>
     <v-form ref="form">
-    <v-card class="pa-10">
-      <div align="center" class="text-h6">Add Events</div>
-      <div class="text-h6">Name of Event</div>
-      <div>
-        <v-text-field outlined v-model="events.event_name"></v-text-field>
-      </div>
-      <div class="text-h6">Start Date</div>
-      <div>
-        <v-menu
-          ref="eventDate"
-          v-model="eventDate"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          offset-y
-          max-width="290px"
-          min-width="auto"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-              v-model="date"
-              outlined
-              label="Date"
-              persistent-hint
-              v-bind="attrs"
-              @blur="date = date"
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="date"
-            no-title
-            
-         
-          ></v-date-picker>
-        </v-menu>
-      </div>
-       <div class="text-h6">End Date</div>
-      <div>
-        <v-menu
-          ref="eventDate1"
-          v-model="eventDate1"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          offset-y
-          max-width="290px"
-          min-width="auto"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-text-field
-              v-model="date1"
-              outlined
-              label="Date"
-              persistent-hint
-              v-bind="attrs"
-              @blur="date = date"
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker
-            v-model="date1"
-            no-title
-            
-         
-          ></v-date-picker>
-        </v-menu>
-      </div>
-      
-      <div class="text-h6">Venue</div>
-      <div>
-        <v-text-field outlined v-model="events.venue"></v-text-field>
-      </div>
-      <div class="text-h6">Description</div>
-      <div>
-        <v-textarea outlined v-model="events.descriptions"></v-textarea>
-      </div>
-      <v-col>
-        <span class="pt-2 pr-10 pb-10"><b>Upload Image</b></span>
-
-        <div class="hover_pointer pt-10">
-          <img
-            @click="$refs.file.click()"
-            :src="img_holder"
-            alt="item_.js"
-            height="150"
-            class="mb-0"
-          />
+      <v-card class="pa-10">
+        <div align="center" class="text-h6">Add Events</div>
+        <div class="text-h6">Name of Event</div>
+        <div>
+          <v-text-field outlined v-model="events.event_name"></v-text-field>
         </div>
-      </v-col>
-      <v-col class="d-none">
-        <input
-          style="display: none"
-          type="file"
-          id="fileInput"
-          ref="file"
-          accept="image/png, image/jpeg"
-          @change="onFileUpload"
-        />
-      </v-col>
+        <div class="text-h6">Start Date</div>
+        <div>
+          <v-menu
+            ref="eventDate"
+            v-model="eventDate"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="date"
+                outlined
+                label="Date"
+                persistent-hint
+                v-bind="attrs"
+                @blur="date = date"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="date" no-title></v-date-picker>
+          </v-menu>
+        </div>
+        <div class="text-h6">Start Time</div>
+        <div>
+          <v-menu
+            class="pa-0"
+            ref="startTime"
+            v-model="startTime"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="start_time"
+                outlined
+                label="Start Time"
+                persistent-hint
+                v-bind="attrs"
+                @blur="start_time = start_time"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-time-picker v-model="start_time" format="24hr"></v-time-picker>
+          </v-menu>
+        </div>
+        <div class="text-h6">End Date</div>
+        <div>
+          <v-menu
+            ref="eventDate1"
+            v-model="eventDate1"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="date1"
+                outlined
+                label="Date"
+                persistent-hint
+                v-bind="attrs"
+                @blur="date = date"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="date1" no-title></v-date-picker>
+          </v-menu>
+        </div>
+        <div class="text-h6">End Time</div>
+         <v-menu
+            class="pa-0"
+            ref="endTime"
+            v-model="endTime"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            max-width="290px"
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="end_time"
+                outlined
+                label="Start Time"
+                persistent-hint
+                v-bind="attrs"
+                @blur="end_time = end_time"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-time-picker v-model="end_time" format="24hr"></v-time-picker>
+          </v-menu>
+        <div class="text-h6">Venue</div>
+        <div>
+          <v-text-field outlined v-model="events.venue"></v-text-field>
+        </div>
+        <div class="text-h6">Description</div>
+        <div>
+          <v-textarea outlined v-model="events.descriptions"></v-textarea>
+        </div>
+        <v-col>
+          <span class="pt-2 pr-10 pb-10"><b>Upload Image</b></span>
 
-      <v-card-actions>
-        <v-row align="center">
-          <v-col align="end">
-            <v-btn color="red" text @click="cancel"> Cancel </v-btn>
-          </v-col>
-          <v-col>
-            <v-btn
-              color="success"
-              text
-              @click="addEvents"
-              :loading="buttonLoad"
-            >
-              Save
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-card-actions>
-    </v-card>
+          <div class="hover_pointer pt-10">
+            <img
+              @click="$refs.file.click()"
+              :src="img_holder"
+              alt="item_.js"
+              height="150"
+              class="mb-0"
+            />
+          </div>
+        </v-col>
+        <v-col class="d-none">
+          <input
+            style="display: none"
+            type="file"
+            id="fileInput"
+            ref="file"
+            accept="image/png, image/jpeg"
+            @change="onFileUpload"
+          />
+        </v-col>
+
+        <v-card-actions>
+          <v-row align="center">
+            <v-col align="end">
+              <v-btn color="red" text @click="cancel"> Cancel </v-btn>
+            </v-col>
+            <v-col>
+              <v-btn
+                color="success"
+                text
+                @click="addEvents"
+                :loading="buttonLoad"
+              >
+                Save
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
     </v-form>
   </v-dialog>
 </template>
@@ -131,17 +170,21 @@ export default {
       this.img_holder = this.items.image;
     },
   },
-  created(){
-    this.loadData()
+  created() {
+    this.loadData();
   },
   data() {
     return {
-      eventDate1:false,
-      account_type:'',
+      end_time:'',
+      endTime:false,
+      start_time:'',
+      startTime:false,
+      eventDate1: false,
+      account_type: "",
       eventDate: false,
-      events:[],
-      date:'',
-      date1:'',
+      events: [],
+      date: "",
+      date1: "",
       discussions: [],
       img_holder: "/image_placeholder.png",
       image: "",
@@ -150,8 +193,9 @@ export default {
     };
   },
   methods: {
-    loadData(){
-      this.account_type = localStorage.getItem('account_type')
+   
+    loadData() {
+      this.account_type = localStorage.getItem("account_type");
     },
     // parseDate(date) {
     //   if (!date) return null;
@@ -168,11 +212,19 @@ export default {
         }
         form_data.append("user_id", localStorage.getItem("id"));
         form_data.append("event_name", this.events.event_name);
-        form_data.append("event_start_date", this.date);
-        form_data.append("event_end_date", this.date);
+        form_data.append("event_start_date", this.date+" "+this.start_time);
+        form_data.append("event_end_date", this.date1+" "+this.end_time);
         form_data.append("venue", this.events.venue);
-        form_data.append("is_approved", this.account_type=='Admin' ? true : false);
-        form_data.append("event_type", this.account_type=='Admin' ? 'official_event' : 'community_led_event');
+        form_data.append(
+          "is_approved",
+          this.account_type == "Admin" ? true : false
+        );
+        form_data.append(
+          "event_type",
+          this.account_type == "Admin"
+            ? "official_event"
+            : "community_led_event"
+        );
         form_data.append("descriptions", this.events.descriptions);
         if (this.isAdd) {
           const response = await this.$axios
@@ -183,7 +235,7 @@ export default {
             })
             .then(() => {
               this.buttonLoad = false;
-              this.$refs.form.reset()
+              this.$refs.form.reset();
               this.$emit("cancel");
               this.$emit("refresh");
             });

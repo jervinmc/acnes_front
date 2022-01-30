@@ -2,7 +2,7 @@
   <v-card elevation="5">
     <v-row>
       <v-col align="start" class="pa-10 text-h5">
-        <b>Usermanagement</b>
+        <b>Discussion Space Management</b>
       </v-col>
     </v-row>
     <v-data-table
@@ -19,11 +19,7 @@
           class="my-2"
         ></v-skeleton-loader>
       </template>
-      <template #[`item.is_active`]="{ item }">
-          <div :class="item.is_active ? 'green--text' : 'red--text'">
-            {{item.is_active ? 'Verified' : 'Unverified' }}
-          </div>
-      </template>
+
       <template #[`item.opt`]="{ item }">
         <v-menu offset-y z-index="1">
           <template v-slot:activator="{ attrs, on }">
@@ -34,16 +30,25 @@
           <v-list dense>
             <v-list-item @click.stop="status(item, 'Activate')">
               <v-list-item-content>
-                <v-list-item-title>Activate</v-list-item-title>
+                <v-list-item-title>Approve</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click.stop="status(item, 'Deactivate')">
               <v-list-item-content>
-                <v-list-item-title>Deactivate</v-list-item-title>
+                <v-list-item-title>Disapprove</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-menu>
+      </template>
+       
+      <template #[`item.is_approved`]="{ item }">
+       <div :class="item.is_approved ? 'green--text' : 'red--text'">
+            {{item.is_approved ? 'Approved' : 'Not Yet Approved' }}
+          </div>
+      </template>
+      <template #[`item.image`]="{ item }">
+          <v-img :src="item.image" height="100" width="100"></v-img>
       </template>
     </v-data-table>
   </v-card>
@@ -60,12 +65,14 @@ export default {
       users: [],
       headers: [
         { text: "ID", value: "id" },
-        { text: "First Name", value: "firstname" },
-        { text: "Last Name", value: "lastname" },
-        { text: "Address", value: "address" },
-        { text: "Account Type", value: "account_type" },
-        { text: "email", value: "email" },
-        { text: "Status", value: "is_active" },
+        { text: "Event Name", value: "event_name" },
+        { text: "Event Start Date", value: "event_start_date" },
+        { text: "Event End Date", value: "event_end_date" },
+        { text: "Venue", value: "venue" },
+        { text: "Event Type", value: "event_type" },
+        { text: "Descriptions", value: "descriptions" },
+        { text: "Status", value: "is_approved" },
+        { text: "Image", value: "image" },
         { text: "Actions", value: "opt" },
         ``,
       ],
@@ -74,11 +81,12 @@ export default {
   methods: {
     async status(data, status) {
       this.isLoading = true;
+      alert(status)
       const res = await this.$axios
         .patch(
-          `/users/user/${data.id}/`,
+          `/events/${data.id}/`,
           {
-            is_active: status == "Deactivate" ? false : true,
+            is_approved: status == "Deactivate" ? false : true,
           },
           {
             headers: {
@@ -96,7 +104,7 @@ export default {
     async usermanagementGetall() {
       this.isLoading = true;
       const res = await this.$axios
-        .get(`/users/user/`, {
+        .get(`/events/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

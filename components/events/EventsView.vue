@@ -21,7 +21,7 @@
      
         </div>
         <div align="start" class="text-h5 pt-5">
-          When: {{items.event_start_date}} - {{items.event_end_date}}
+          When: {{formatDate(items.event_start_date)}} - {{items.event_end_date}}
         </div>
         <div align="start" class="text-h5 pt-5">
           Where: {{items.venue}}
@@ -76,6 +76,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   props: ["isOpen", "items", "isAdd"],
   watch: {
@@ -97,6 +98,9 @@ export default {
     };
   },
   methods: {
+     formatDate(val){
+      return moment(String(val)).format('YYYY-MM-DD HH:mm')
+    },
     async going(){
         await this.$axios.patch(`/events/${this.items.id}/`,{no_going:1+parseInt(this.items.no_going)},{
           headers:{

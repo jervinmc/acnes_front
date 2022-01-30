@@ -60,12 +60,27 @@
         </v-col>
       </v-row>
       <v-spacer></v-spacer>
-      <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('home')">Home</v-toolbar-title>
+     <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Home</v-toolbar-title>
+        </template>
+              <v-list>
+           <v-list-item v-if="account_type=='Admin'" @click="route('home/announcement_management')">
+            <v-list-item-title>Announcement Management</v-list-item-title>
+          </v-list-item>
+           <v-list-item @click="route('home')">
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Events</v-toolbar-title>
         </template>
               <v-list>
+           <v-list-item v-if="account_type=='Admin'" @click="route('events/events_management')">
+            <v-list-item-title>Events Management</v-list-item-title>
+          </v-list-item>
           <v-list-item @click="route('events/upcoming_events')">
             <v-list-item-title>Upcoming Events</v-list-item-title>
           </v-list-item>
@@ -90,7 +105,19 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('marketplace')">Marketplace</v-toolbar-title>
+       <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Marketplace</v-toolbar-title>
+        </template>
+              <v-list>
+           <v-list-item v-if="account_type=='Admin'" @click="route('marketplace/marketplace_management')">
+            <v-list-item-title>Marketplace Management</v-list-item-title>
+          </v-list-item>
+           <v-list-item @click="route('marketplace')">
+            <v-list-item-title>Market</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('reports')">Feedback and reports</v-toolbar-title>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -110,6 +137,9 @@
           </v-list-item>
           <v-list-item @click="route('usermanagement')" v-if="account_type!='Resident'">
             <v-list-item-title>Usermanagement</v-list-item-title> 
+          </v-list-item>
+          <v-list-item @click="route('messages')" v-if="account_type=='Resident'">
+            <v-list-item-title>Messages</v-list-item-title> 
           </v-list-item>
           <v-list-item @click="isOpenLogout=true">
             <v-list-item-title>Logout</v-list-item-title>
