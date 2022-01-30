@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="isOpen" width="1000" persistent>
     <v-dialog v-model="openQrCode" width="350">
-      <v-img :src="details.image" height="350" width="350">
+      <v-img :src="details.image_qr" height="350" width="350">
 
       </v-img>
 
