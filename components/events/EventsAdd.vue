@@ -214,6 +214,8 @@ export default {
         form_data.append("event_name", this.events.event_name);
         form_data.append("event_start_date", this.date+" "+this.start_time);
         form_data.append("event_end_date", this.date1+" "+this.end_time);
+        form_data.append("no_going", '0');
+        form_data.append("no_intersted", '0');
         form_data.append("venue", this.events.venue);
         form_data.append(
           "is_approved",
