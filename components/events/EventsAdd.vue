@@ -115,7 +115,9 @@
         <div>
           <v-textarea outlined v-model="events.descriptions"></v-textarea>
         </div>
-        <v-col>
+          <v-row>
+            <v-col>
+              <v-col>
           <span class="pt-2 pr-10 pb-10"><b>Upload Image</b></span>
 
           <div class="hover_pointer pt-10">
@@ -138,6 +140,33 @@
             @change="onFileUpload"
           />
         </v-col>
+            </v-col>
+            <v-col>
+              <v-col>
+          <span class="pt-2 pr-10 pb-10"><b>Upload Image</b></span>
+
+          <div class="hover_pointer pt-10">
+            <img
+              @click="$refs.file1.click()"
+              :src="img_holder1"
+              alt="item_.js"
+              height="150"
+              class="mb-0"
+            />
+          </div>
+        </v-col>
+        <v-col class="d-none">
+          <input
+            style="display: none"
+            type="file"
+            id="fileInput1"
+            ref="file1"
+            accept="image/png, image/jpeg"
+            @change="onFileUpload1"
+          />
+        </v-col>
+            </v-col>
+          </v-row>
 
         <v-card-actions>
           <v-row align="center">
@@ -175,6 +204,8 @@ export default {
   },
   data() {
     return {
+      image1:'',
+      img_holder1:'/image_placeholder.png',
       end_time:'',
       endTime:false,
       start_time:'',
@@ -209,6 +240,9 @@ export default {
         let form_data = new FormData();
         if (this.image != null && this.image != "") {
           form_data.append("image", this.image);
+        }
+        if (this.image1 != null && this.image1 != "") {
+          form_data.append("image1", this.image1);
         }
         form_data.append("user_id", localStorage.getItem("id"));
         form_data.append("event_name", this.events.event_name);
@@ -279,6 +313,28 @@ export default {
       if (e == null) {
       } else {
         this.url, (this.img_holder = URL.createObjectURL(e));
+      }
+    },
+    onFileUpload1(e) {
+      this.image1 = e;
+      e = e.target.files[0];
+      if (e["name"].length > 100) {
+        alert("255 characters exceeded filename.");
+        return;
+      }
+      try {
+        if (e.size > 16000000) {
+          alert("Only 15mb file can be accepted.");
+          return;
+        }
+      } catch (error) {
+        alert(error);
+        return;
+      }
+      this.image1 = e;
+      if (e == null) {
+      } else {
+        this.url, (this.img_holder1 = URL.createObjectURL(e));
       }
     },
     cancel() {

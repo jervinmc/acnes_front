@@ -1,5 +1,23 @@
 <template>
   <v-card elevation="5">
+       <v-dialog v-model="deleteConfirmation" width="500" persistent>
+    <v-card class="pa-10">
+    <div align="center" class="text-h6">Confirmation</div>
+    <div align="center" class="pa-10">
+        Are you sure you want to delete this item?
+    </div>
+      <v-card-actions>
+        <v-row align="center">
+            <v-col align="end">
+                <v-btn color="red" text @click="deleteConfirmation=false"> Cancel </v-btn>
+            </v-col>
+            <v-col>
+                <v-btn color="success" text :loading="buttonLoad" @click="deleteAnnouncement"> Confirm </v-btn>
+            </v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
     <v-row>
       <v-col align="start" class="pa-10 text-h5">
         <b>Discussion Space Management</b>
@@ -38,6 +56,11 @@
                 <v-list-item-title>Disapprove</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
+             <v-list-item @click.stop="deleteItem(item)">
+              <v-list-item-content>
+                <v-list-item-title>Delete</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-menu>
       </template>
@@ -61,8 +84,11 @@ export default {
   },
   data() {
     return {
+        selectedItem:[],
+        deleteConfirmation:false,
       isLoading: false,
       users: [],
+      buttonLoad:false,
       headers: [
         { text: "ID", value: "id" },
         { text: "Event Name", value: "event_name" },
@@ -79,6 +105,24 @@ export default {
     };
   },
   methods: {
+         async deleteAnnouncement(){
+     this.buttonLoad=true
+      this.$axios.delete(`/events/${this.selectedItem.id}/`,{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then(()=>{
+          this.deleteConfirmation=false
+          this.buttonLoad=false
+          alert('Successfully Deleted!')
+          this.loadData()
+      })
+    },
+       deleteItem(val){
+      this.selectedItem=val
+      this.deleteConfirmation=true
+    },
     async status(data, status) {
       this.isLoading = true;
       alert(status)

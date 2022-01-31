@@ -1,5 +1,115 @@
 <template>
   <div align="center">
+    <v-dialog v-model="editMarket" width="1000" persistent>
+    <v-form
+      v-model="valid"
+      ref="form"
+      lazy-validation
+      @submit.prevent="addMarketplace"
+    >
+      <v-card class="pa-10">
+        <div align="center" class="text-h6">Add Marketlist</div>
+        <div class="text-h6">Name of Listing</div>
+        <div>
+          <v-text-field
+            outlined
+            v-model="marketplace.name"
+            :rules="standardRules"
+          ></v-text-field>
+        </div>
+        <div class="text-h6">Category</div>
+        <div>
+          <v-select
+            :rules="standardRules"
+            outlined
+            v-model="marketplace.category"
+            :items="['Product', 'Service']"
+          ></v-select>
+        </div>
+        <div class="text-h6">Price</div>
+        <div>
+          <v-text-field
+            outlined
+            v-model="marketplace.price"
+            :rules="standardRules"
+          ></v-text-field>
+        </div>
+        <div class="text-h6">Descriptions</div>
+        <div>
+          <v-textarea outlined v-model="marketplace.descriptions"></v-textarea>
+        </div>
+        <v-row>
+          <v-col>
+            <span class="pt-2 pr-10 pb-10"><b>Upload QR Code</b></span>
+
+            <div class="hover_pointer pt-10">
+              <img
+                @click="$refs.fileqr.click()"
+                :src="img_holder_qr"
+                alt="item_.js"
+                height="150"
+                class="mb-0"
+              />
+            </div>
+          </v-col>
+        </v-row>
+        <v-col class="d-none">
+          <input
+            style="display: none"
+            type="file"
+            id="fileInputQR"
+            ref="fileqr"
+            accept="image/png, image/jpeg"
+            @change="onFileUploadQR"
+          />
+        </v-col>
+
+        <v-row>
+          <v-col>
+            <span class="pt-2 pr-10 pb-10"><b>Upload Image</b></span>
+
+            <div class="hover_pointer pt-10">
+              <img
+                @click="$refs.file.click()"
+                :src="img_holder"
+                alt="item_.js"
+                height="150"
+                class="mb-0"
+              />
+            </div>
+          </v-col>
+          <v-col class="d-none">
+            <input
+              style="display: none"
+              type="file"
+              id="fileInput"
+              ref="file"
+              accept="image/png, image/jpeg"
+              @change="onFileUpload"
+            />
+          </v-col>
+        </v-row>
+        <v-card-actions>
+          <v-row align="center">
+            <v-col align="end">
+              <v-btn color="red" text @click="editMarket=false"> Cancel </v-btn>
+            </v-col>
+            <v-col>
+              <v-btn
+                color="success"
+                text
+                type="submit"
+                :disabled="!valid"
+                :loading="buttonLoad"
+              >
+                Save
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-card-actions>
+      </v-card>
+    </v-form>
+  </v-dialog>
     <div class="pa-16" style="max-width: 1200px">
       <v-card class="pa-16">
         <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">
@@ -8,14 +118,14 @@
         <div class="text-h6">{{ name }}</div>
         <div class="text-h6">{{ email }}</div>
         <div class="text-h6">Taguig</div>
-        <div class="pt-10 text-h5">ABOUT ME</div>
+        <!-- <div class="pt-10 text-h5">ABOUT ME</div>
         <div class="grey--text mb-10">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sodales
           elementum mi non hendrerit. Proin tempor facilisis felis nec ultrices.
           Duis nec ultrices neque. Proin semper ultricies turpis, vel faucibus
           velit sodales vitae. Class aptent taciti sociosqu ad litora torquent
           per conubia nostra, per inceptos himenaeos.
-        </div>
+        </div> -->
         <v-divider class="pt"></v-divider>
         <div class="text-h5 pt-10" align="start">
           Discussion Space
@@ -141,7 +251,7 @@
             <v-divider class="mx-4"></v-divider>
             <v-card-title>Php {{parseFloat((key.price)).toFixed(2)}}</v-card-title>
             <v-card-actions>
-              <v-btn color="deep-purple lighten-2" text @click="viewItem(key)"> View </v-btn>
+              <v-btn color="deep-purple lighten-2" text @click="viewItemMarket(key)"> View </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -155,19 +265,30 @@ export default {
   data() {
     return {
       name: "",
+      valid:false,
+      marketplace:[],
       email: "",
       address: "",
       discussions: [],
+      img_holder1:'',
+      img_holder:'',
       isLoading: false,
       events:[],
       marketplace:[],
-      profileImage:''
+      profileImage:'',
+      editMarket:false,
     };
   },
   created() {
     this.loadData();
   },
   methods: {
+    viewItemMarket(item){
+      this.img_holder = item.image
+      this.img_holder1=item.image1
+      this.marketplace=item
+      this.editMarket=true
+    },
     loadData() {
       this.name = localStorage.getItem("firstname")+' '+localStorage.getItem("lastname");
       this.email = localStorage.getItem("email");

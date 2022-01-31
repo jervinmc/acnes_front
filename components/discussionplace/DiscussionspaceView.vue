@@ -19,7 +19,7 @@
         <div class="pt-5">
           {{details.descriptions}}
         </div>
-        <div align="start" class="text-h5 pt-5">
+        <!-- <div align="start" class="text-h5 pt-5">
           <v-row>
             <v-col cols="6"> Vote Now: </v-col>
             <v-spacer></v-spacer>
@@ -52,7 +52,7 @@
               </div>
             </v-col>
           </v-row>
-        </div>
+        </div> -->
       </div>
       <div class="text-h6 pt-10">
         Comments
