@@ -75,7 +75,7 @@
   </v-dialog>
     <v-row>
       <v-col align="start" class="pa-10 text-h5">
-        <b>Announcement Management</b>
+        <b>Marketplace Management</b>
       </v-col>
     </v-row>
     <v-data-table

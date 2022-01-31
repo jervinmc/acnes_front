@@ -98,7 +98,7 @@
         </template>
               <v-list>
           <v-list-item v-if="account_type=='Admin'" @click="route('discussionadmin')">
-            <v-list-item-title>Discussion Space</v-list-item-title>
+            <v-list-item-title>Discussion Space Management</v-list-item-title>
           </v-list-item>
           <v-list-item @click="route('discussionspace')">
             <v-list-item-title>Discussion Space Resident</v-list-item-title>

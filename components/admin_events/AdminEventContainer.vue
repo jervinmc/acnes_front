@@ -2,7 +2,7 @@
   <v-card elevation="5">
     <v-row>
       <v-col align="start" class="pa-10 text-h5">
-        <b>Discussion Space Management</b>
+        <b>Events Management</b>
       </v-col>
     </v-row>
     <v-data-table

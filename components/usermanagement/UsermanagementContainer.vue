@@ -34,12 +34,12 @@
           <v-list dense>
             <v-list-item @click.stop="status(item, 'Activate')">
               <v-list-item-content>
-                <v-list-item-title>Activate</v-list-item-title>
+                <v-list-item-title>Approve</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item @click.stop="status(item, 'Deactivate')">
               <v-list-item-content>
-                <v-list-item-title>Deactivate</v-list-item-title>
+                <v-list-item-title>Disapprove</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
