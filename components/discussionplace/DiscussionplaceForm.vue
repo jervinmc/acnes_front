@@ -29,7 +29,7 @@
             Discussion Space
           </span>
         </v-col>
-        <v-col align="end" v-if="account_type!='Admin'">
+        <v-col align="end" >
           <div class="pt-5">
               <v-btn
                 @click="addItem"

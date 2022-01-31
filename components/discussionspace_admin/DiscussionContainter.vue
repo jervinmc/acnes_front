@@ -1,5 +1,23 @@
 <template>
   <v-card elevation="5">
+     <v-dialog v-model="deleteConfirmation" width="500" persistent>
+    <v-card class="pa-10">
+    <div align="center" class="text-h6">Confirmation</div>
+    <div align="center" class="pa-10">
+        Are you sure you want to delete this item?
+    </div>
+      <v-card-actions>
+        <v-row align="center">
+            <v-col align="end">
+                <v-btn color="red" text @click="deleteConfirmation=false"> Cancel </v-btn>
+            </v-col>
+            <v-col>
+                <v-btn color="success" text :loading="buttonLoad" @click="deleteAnnouncement"> Confirm </v-btn>
+            </v-col>
+        </v-row>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
     <v-row>
       <v-col align="start" class="pa-10 text-h5">
         <b>Discussion Space Management</b>
@@ -19,7 +37,11 @@
           class="my-2"
         ></v-skeleton-loader>
       </template>
-
+         <template #[`item.is_active`]="{ item }">
+       <div :class="item.is_active ? 'green--text' : 'red--text'">
+            {{item.is_active ? 'Approved' : 'Not Yet Approved' }}
+          </div>
+      </template>
       <template #[`item.opt`]="{ item }">
         <v-menu offset-y z-index="1">
           <template v-slot:activator="{ attrs, on }">
@@ -36,6 +58,11 @@
             <v-list-item @click.stop="status(item, 'Deactivate')">
               <v-list-item-content>
                 <v-list-item-title>Deactivate</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+             <v-list-item @click.stop="deleteItem(item)">
+              <v-list-item-content>
+                <v-list-item-title>Delete</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -57,11 +84,14 @@ export default {
     return {
       isLoading: false,
       users: [],
+      buttonLoad:false,
+      deleteConfirmation:false,
+      selectedItem:[],
       headers: [
         { text: "ID", value: "id" },
         { text: "Title", value: "title" },
         { text: "Descriptions", value: "descriptions" },
-        { text: "Is Active", value: "is_active" },
+        { text: "Status", value: "is_active" },
         { text: "Image", value: "image" },
         { text: "Actions", value: "opt" },
         ``,
@@ -69,6 +99,24 @@ export default {
     };
   },
   methods: {
+      async deleteAnnouncement(){
+     this.buttonLoad=true
+      this.$axios.delete(`/discussions/${this.selectedItem.id}/`,{
+        headers:{
+          Authorization:`Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      .then(()=>{
+          this.deleteConfirmation=false
+          this.buttonLoad=false
+          alert('Successfully Deleted!')
+          this.loadData()
+      })
+    },
+    deleteItem(val){
+      this.selectedItem=val
+      this.deleteConfirmation=true
+    },
     async status(data, status) {
       this.isLoading = true;
       const res = await this.$axios

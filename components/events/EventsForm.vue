@@ -30,7 +30,7 @@
           </span>
         </v-col>
         <v-col align="end" v-if="$route.name!='events-upcoming_events'">
-          <div class="pt-5">
+          <div class="pt-5" v-if="($route.name=='events-community_events' && account_type=='Resident') || ($route.name=='events-official_events' && account_type=='Admin')">
               <v-btn
                 @click="addItem"
                 x-large

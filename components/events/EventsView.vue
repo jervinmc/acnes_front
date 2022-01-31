@@ -10,13 +10,26 @@
         </div>
         <div>{{items.users.firstname}} {{items.users.lsatname}}</div>
         <div>{{items.users.email}}</div>
-        <div class="pt-10">
+        <v-row>
+          <v-col cols="6">
+            <div class="pt-10">
           <v-img
             :src="items.image"
        
             height="300"
           ></v-img>
         </div>
+          </v-col>
+          <v-col cols="6">
+            <div class="pt-10">
+          <v-img
+            :src="items.image1"
+       
+            height="300"
+          ></v-img>
+        </div>
+          </v-col>
+        </v-row>
         <div class="pt-5">
      
         </div>
