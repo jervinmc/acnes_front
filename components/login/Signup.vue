@@ -14,10 +14,6 @@
       <div>
         <v-text-field outlined v-model="users.lastname"></v-text-field>
       </div>
-      <div class="text-h6">Password</div>
-      <div>
-        <v-text-field outlined v-model="users.password" type="password"></v-text-field>
-      </div>
       <div class="text-h6">Address</div>
       <div>
         <v-text-field outlined v-model="users.address"></v-text-field>
@@ -31,12 +27,20 @@
         <v-select
           outlined
           v-model="users.account_type"
-          :items="['Resident', 'Admin']"
+          :items="['Resident', 'Admin', 'Board of Directors', 'Community Personnel']"
         ></v-select>
       </div>
       <div class="text-h6">Descriptions</div>
       <div>
         <v-textarea outlined v-model="users.descriptions"></v-textarea>
+      </div>
+        <div class="text-h6">Password</div>
+      <div>
+        <v-text-field outlined v-model="users.password" type="password" ></v-text-field>
+      </div>
+       <div class="text-h6">Confirm Password</div>
+      <div>
+        <v-text-field outlined v-model="users.confirm_password" type="password"></v-text-field>
       </div>
       <v-col>
         <span class="pt-2 pr-10 pb-10"><b>Upload Image</b></span>
@@ -61,6 +65,16 @@
           @change="onFileUpload"
         />
       </v-col>
+      <div class="center">
+                <span class="red--text" style="font-size:12px">(You must accept the terms and conditions.)</span>
+                <v-checkbox v-model="isCheckLabel" label="I have read and agree to DotCom.munitree's Rules and Regulations"></v-checkbox>
+              </div>
+            <a href="http://avida-settings-nuvali.centriforge.com/guidelines/rules?fbclid=IwAR2g8k5J6TmpClB5u_rUJTAU_ovJeFKwOGcW7stlVk6wpGLs5AWaj2ymEeo#:~:text=Owners%2Foccupants%20must%20avoid%20littering,Corp%20and%2For%20the%20Association" target="_blank">Terms and Conditions.</a>
+         <div class="center">
+                <span class="red--text" style="font-size:12px">(You must accept data privacy act.)</span>
+                <v-checkbox v-model="isCheckLabel" label="I have read the terms and conditions."></v-checkbox>
+              </div>
+            <a href="https://www.privacy.gov.ph/data-privacy-act/?fbclid=IwAR05Gn8ZV9vWKVzK92uGvVyi8oZKZ8qOT41Jpr21FCo9JxpqQff7nuXi1LI" target="_blank">Visit Data Privacy</a>
 
       <v-card-actions>
         <v-row align="center">
@@ -94,12 +108,14 @@ export default {
   },
   data() {
     return {
+      isReveal:false,
       img_holder: "image_placeholder.png",
       marketplace: [],
       image: "",
       url: "",
       users: [],
       buttonLoad: false,
+      isCheckLabel:false,
     };
   },
   methods: {
@@ -129,6 +145,14 @@ export default {
       }
     },
     async addMarketplace() {
+      if(!this.isCheckLabel){
+        alert('Please accept data privacy terms.')
+        return
+      }
+      if(this.users.confirm_password!=this.users.password){
+        alert('Password does not match!')
+        return
+      }
       this.buttonLoad = true;
       try {
         let form_data = new FormData();
@@ -143,6 +167,7 @@ export default {
         form_data.append("firstname", this.users.firstname);
         form_data.append("lastname", this.users.lastname);
         form_data.append("password", this.users.password);
+        form_data.append("is_verified", false);
         form_data.append("groups", 1);
         form_data.append("is_superuser",this.users.account_type!='Resident' ? true : false);
         const response = await this.$axios

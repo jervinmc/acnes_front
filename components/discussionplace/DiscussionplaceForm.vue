@@ -179,6 +179,16 @@ DiscussionplaceAdd   };
         .then((res) => {
           this.discussions = res.data;
           this.isLoading=false
+             if(!this.isLoaded){
+               if(this.$route.query.id!=undefined){
+            for(let key in this.discussions){
+
+              if(this.discussions[key].id==this.$route.query.id){
+                this.viewItem(this.discussions[key])
+              }
+            }
+          }
+          }
         });
     },
     async searchData(){

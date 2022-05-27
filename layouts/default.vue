@@ -65,7 +65,7 @@
           <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Home</v-toolbar-title>
         </template>
               <v-list>
-           <v-list-item v-if="account_type=='Admin'" @click="route('home/announcement_management')">
+           <v-list-item v-if="account_type!='Resident'" @click="route('home/announcement_management')">
             <v-list-item-title>Announcement Management</v-list-item-title>
           </v-list-item>
            <v-list-item @click="route('home')">
@@ -78,7 +78,7 @@
           <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Events</v-toolbar-title>
         </template>
               <v-list>
-           <v-list-item v-if="account_type=='Admin'" @click="route('events/events_management')">
+           <v-list-item v-if="account_type!='Resident'" @click="route('events/events_management')">
             <v-list-item-title>Events Management</v-list-item-title>
           </v-list-item>
           <v-list-item @click="route('events/upcoming_events')">
@@ -97,7 +97,7 @@
           <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Discussion Space</v-toolbar-title>
         </template>
               <v-list>
-          <v-list-item v-if="account_type=='Admin'" @click="route('discussionadmin')">
+          <v-list-item v-if="account_type!='Resident'" @click="route('discussionadmin')">
             <v-list-item-title>Discussion Space Management</v-list-item-title>
           </v-list-item>
           <v-list-item @click="route('discussionspace')">
@@ -110,7 +110,7 @@
           <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Marketplace</v-toolbar-title>
         </template>
               <v-list>
-           <v-list-item v-if="account_type=='Admin'" @click="route('marketplace/marketplace_management')">
+           <v-list-item v-if="account_type!='Resident'" @click="route('marketplace/marketplace_management')">
             <v-list-item-title>Marketplace Management</v-list-item-title>
           </v-list-item>
            <v-list-item @click="route('marketplace')">
@@ -118,7 +118,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-toolbar-title class="px-4 white--text" style="cursor:pointer" @click="route('reports')">Feedback and reports</v-toolbar-title>
+      <v-toolbar-title v-if="account_type!='Admin'" class="px-4 white--text" style="cursor:pointer" @click="route('reports')">Feedback and reports</v-toolbar-title>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
       <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">

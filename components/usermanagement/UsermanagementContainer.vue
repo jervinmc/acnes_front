@@ -87,6 +87,14 @@ export default {
           }
         )
         .then((res) => {
+            const res1 = this.$axios.post(`/approved-email/`,{email:data.email,status:status},
+                  {
+                    headers: {
+                      Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                  }
+                )
+          
           this.loadData();
         });
     },
