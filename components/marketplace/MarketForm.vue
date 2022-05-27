@@ -150,7 +150,7 @@ export default {
       this.isAdd=true
     },
     viewItem(val){
-      this.$router.push(`/?id=${val.id}`)
+      window.location.href=`?id=${val.id}`
       this.dialogView=true;
       this.selectedProduct = val;
       // this.dialogAdd=true
