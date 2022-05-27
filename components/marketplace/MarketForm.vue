@@ -150,11 +150,16 @@ export default {
       this.isAdd=true
     },
     viewItem(val){
+      this.$router.push(`/?id=${val.id}`)
       this.dialogView=true;
       this.selectedProduct = val;
       // this.dialogAdd=true
       // this.isAdd=false
       // this.selectedItem=val
+    },
+    editItem(val){
+      this.dialogView=true;
+      this.selectedProduct = val;
     },
     loadData() {
       this.account_type=localStorage.getItem('account_type')
@@ -171,6 +176,15 @@ export default {
         .then((res) => {
           this.marketplace = res.data;
           this.isLoading=false
+           if(!this.isLoaded){
+               if(this.$route.query.id!=undefined){
+            for(let key in this.marketplace){
+              if(this.marketplace[key].id==this.$route.query.id){
+                this.editItem(this.marketplace[key])
+              }
+            }
+          }
+          }
         });
     },
     async searchData(){
@@ -184,6 +198,7 @@ export default {
         .then((res) => {
           this.marketplace = res.data;
           this.isLoading=false
+          
         });
     }
   },

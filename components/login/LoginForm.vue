@@ -129,6 +129,7 @@ export default {
                 localStorage.setItem("lastname", users.data.lastname);
                 localStorage.setItem("image", users.data.image);
                 localStorage.setItem("account_type",users.data.account_type)
+                if(users.data.account_type=='Board of Directors' || users.data.account_type=='Community Personnel' || users.data.account_type=='Admin' ) window.location.href = "/home";
                 if(users.data.is_superuser) window.location.href = "/home";
                 else window.location.href = "/home";
               });
