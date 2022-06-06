@@ -118,7 +118,19 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-toolbar-title v-if="account_type!='Admin'" class="px-4 white--text" style="cursor:pointer" @click="route('reports')">Feedback and reports</v-toolbar-title>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-toolbar-title class="px-4 white--text" v-on="on" v-bind="attrs" style="cursor:pointer">Contact Us</v-toolbar-title>
+        </template>
+              <v-list>
+           <v-list-item  @click="route('contact_us_form')">
+            <v-list-item-title>Forms</v-list-item-title>
+          </v-list-item>
+           <v-list-item @click="route('contact_us')">
+            <v-list-item-title>Contact Information</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
       <v-avatar color="primary" size="56" v-on="on" v-bind="attrs">

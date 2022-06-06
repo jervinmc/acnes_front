@@ -22,29 +22,37 @@
       <div>
         <v-text-field outlined v-model="users.contact_number"></v-text-field>
       </div>
-      <div class="text-h6">User Type</div>
-      <div>
+  
+      <!-- <div>
         <v-select
           outlined
           v-model="users.account_type"
           :items="['Resident', 'Admin', 'Board of Directors', 'Community Personnel']"
         ></v-select>
-      </div>
+      </div> -->
       <div class="text-h6">Descriptions</div>
       <div>
         <v-textarea outlined v-model="users.descriptions"></v-textarea>
       </div>
-        <div class="text-h6">Password</div>
+      <div class="text-h6">Password</div>
       <div>
-        <v-text-field outlined v-model="users.password" type="password" ></v-text-field>
+        <v-text-field
+          outlined
+          v-model="users.password"
+          type="password"
+        ></v-text-field>
       </div>
-       <div class="text-h6">Confirm Password</div>
+      <div class="text-h6">Confirm Password</div>
       <div>
-        <v-text-field outlined v-model="users.confirm_password" type="password"></v-text-field>
+        <v-text-field
+          outlined
+          v-model="users.confirm_password"
+          type="password"
+        ></v-text-field>
       </div>
       <v-col>
-        <span class="pt-2 pr-10 pb-10"><b>Upload Image</b></span>
-  
+        <span class="pt-2 pr-10 pb-10"><b>Upload your profile picture</b></span>
+
         <div class="hover_pointer pt-10">
           <img
             @click="$refs.file.click()"
@@ -55,7 +63,31 @@
           />
         </div>
       </v-col>
-      <v-col class="d-none">
+
+      <div>
+     <div class="text-h5 pt-5">
+       <b>Upload image of supporting identification documents
+ </b>
+     </div>
+        <v-col>
+          <v-row>
+            <v-col>
+        
+
+              <div class="hover_pointer pt-10">
+                <img
+                  @click="$refs.file1.click()"
+                  :src="img_holder1"
+                  alt="item_.js"
+                  height="150"
+                  class="mb-0"
+                />
+              </div>
+            </v-col>
+          </v-row>
+        </v-col>
+      </div>
+       <v-col class="d-none">
         <input
           style="display: none"
           type="file"
@@ -65,16 +97,44 @@
           @change="onFileUpload"
         />
       </v-col>
+      <v-col class="d-none">
+        <input
+          style="display: none"
+          type="file"
+          id="fileInput1"
+          ref="file1"
+          accept="image/png, image/jpeg"
+          @change="onFileUpload1"
+        />
+      </v-col>
       <div class="center">
-                <span class="red--text" style="font-size:12px">(You must accept the terms and conditions.)</span>
-                <v-checkbox v-model="isCheckLabel" label="I have read and agree to DotCom.munitree's Rules and Regulations"></v-checkbox>
-              </div>
-            <a href="http://avida-settings-nuvali.centriforge.com/guidelines/rules?fbclid=IwAR2g8k5J6TmpClB5u_rUJTAU_ovJeFKwOGcW7stlVk6wpGLs5AWaj2ymEeo#:~:text=Owners%2Foccupants%20must%20avoid%20littering,Corp%20and%2For%20the%20Association" target="_blank">Terms and Conditions.</a>
-         <div class="center">
-                <span class="red--text" style="font-size:12px">(You must accept data privacy act.)</span>
-                <v-checkbox v-model="isCheckLabel" label="I have read the terms and conditions."></v-checkbox>
-              </div>
-            <a href="https://www.privacy.gov.ph/data-privacy-act/?fbclid=IwAR05Gn8ZV9vWKVzK92uGvVyi8oZKZ8qOT41Jpr21FCo9JxpqQff7nuXi1LI" target="_blank">Visit Data Privacy</a>
+        <span class="red--text" style="font-size: 12px"
+          >(You must accept the terms and conditions.)</span
+        >
+        <v-checkbox
+          v-model="isCheckLabel"
+          label="I have read and agree to DotCom.munitree's Rules and Regulations"
+        ></v-checkbox>
+      </div>
+      <a
+        href="http://avida-settings-nuvali.centriforge.com/guidelines/rules?fbclid=IwAR2g8k5J6TmpClB5u_rUJTAU_ovJeFKwOGcW7stlVk6wpGLs5AWaj2ymEeo#:~:text=Owners%2Foccupants%20must%20avoid%20littering,Corp%20and%2For%20the%20Association"
+        target="_blank"
+        >Terms and Conditions.</a
+      >
+      <div class="center">
+        <span class="red--text" style="font-size: 12px"
+          >(You must accept data privacy act.)</span
+        >
+        <v-checkbox
+          v-model="isCheckLabel"
+          label="I have read the terms and conditions."
+        ></v-checkbox>
+      </div>
+      <a
+        href="https://www.privacy.gov.ph/data-privacy-act/?fbclid=IwAR05Gn8ZV9vWKVzK92uGvVyi8oZKZ8qOT41Jpr21FCo9JxpqQff7nuXi1LI"
+        target="_blank"
+        >Visit Data Privacy</a
+      >
 
       <v-card-actions>
         <v-row align="center">
@@ -108,19 +168,43 @@ export default {
   },
   data() {
     return {
-      isReveal:false,
+      img_holder1:'image_placeholder.png',
+      image1:'',
+      isReveal: false,
       img_holder: "image_placeholder.png",
       marketplace: [],
       image: "",
       url: "",
       users: [],
       buttonLoad: false,
-      isCheckLabel:false,
+      isCheckLabel: false,
     };
   },
   methods: {
     cancel() {
       this.$emit("cancel");
+    },
+    onFileUpload1(e){
+      this.image1 = e;
+      e = e.target.files[0];
+      if (e["name"].length > 100) {
+        alert("255 characters exceeded filename.");
+        return;
+      }
+      try {
+        if (e.size > 16000000) {
+          alert("Only 15mb file can be accepted.");
+          return;
+        }
+      } catch (error) {
+        alert(error);
+        return;
+      }
+      this.image1 = e;
+      if (e == null) {
+      } else {
+        this.url1, (this.img_holder1 = URL.createObjectURL(e));
+      }
     },
     onFileUpload(e) {
       this.image = e;
@@ -145,13 +229,13 @@ export default {
       }
     },
     async addMarketplace() {
-      if(!this.isCheckLabel){
-        alert('Please accept data privacy terms.')
-        return
+      if (!this.isCheckLabel) {
+        alert("Please accept data privacy terms.");
+        return;
       }
-      if(this.users.confirm_password!=this.users.password){
-        alert('Password does not match!')
-        return
+      if (this.users.confirm_password != this.users.password) {
+        alert("Password does not match!");
+        return;
       }
       this.buttonLoad = true;
       try {
@@ -159,17 +243,25 @@ export default {
         if (this.image != null && this.image != "") {
           form_data.append("image", this.image);
         }
+        if (this.image1 != null && this.image1 != "") {
+          form_data.append("image_document", this.image1);
+        }
+
         form_data.append("email", this.users.email);
         form_data.append("name", this.users.name);
         form_data.append("address", this.users.address);
         form_data.append("descriptions", this.users.descriptions);
-        form_data.append("account_type", this.users.account_type);
+        form_data.append("account_type", "Not yet assigned");
         form_data.append("firstname", this.users.firstname);
         form_data.append("lastname", this.users.lastname);
         form_data.append("password", this.users.password);
+        form_data.append("contact_number", this.users.contact_number);
         form_data.append("is_verified", false);
         form_data.append("groups", 1);
-        form_data.append("is_superuser",this.users.account_type!='Resident' ? true : false);
+        form_data.append(
+          "is_superuser",
+          this.users.account_type != "Resident" ? true : false
+        );
         const response = await this.$axios
           .post("signup/", form_data)
           .then(() => {
