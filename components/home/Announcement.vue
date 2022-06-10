@@ -26,7 +26,7 @@
     />
     <div class="mb-10">
       <v-btn
-        v-if="this.account_type=='Admin'"
+        v-if="this.account_type=='System Admin'"
         x-large
         color="black"
         width="200"
@@ -67,7 +67,7 @@
             </v-btn>
           </div>
           <div>
-            <v-col align-self="center" v-if="account_type=='Admin'">
+            <v-col align-self="center" v-if="account_type=='System Admin'">
               <v-icon @click="deleteItem(item)" color="red">mdi-delete</v-icon>
             </v-col>
           </div>

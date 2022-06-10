@@ -30,7 +30,7 @@
           </span>
         </v-col>
         <v-col align="end" v-if="$route.name!='events-upcoming_events'">
-          <div class="pt-5" v-if="($route.name=='events-community_events' && account_type=='Resident') || ($route.name=='events-official_events' && account_type=='Admin')">
+          <div class="pt-5" v-if="($route.name=='events-community_events' && account_type=='Resident') || ($route.name=='events-official_events' && account_type=='System Admin')">
               <v-btn
                 @click="addItem"
                 x-large
@@ -87,7 +87,7 @@
                 View Event
               </v-btn>
             </div>
-            <div align="end" class="pa-10" v-if="account_type=='Admin' && event_type=='community_led_events'">
+            <div align="end" class="pa-10" v-if="account_type=='System Admin' && event_type=='community_led_events'">
               <v-icon @click="approveEvent(index)" size="40" :color="index.is_approved ? 'green' : 'grey'">mdi-check</v-icon>
             </div>
           </v-card>

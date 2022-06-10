@@ -93,7 +93,7 @@
             <v-card-title>Php {{parseFloat((key.price)).toFixed(2)}}</v-card-title>
             <v-card-actions>
               <v-btn color="deep-purple lighten-2" text @click="viewItem(key)"> View </v-btn>
-              <v-icon v-if="account_type=='Admin'" @click="selectDeleteItem(key)" color="red">mdi-delete</v-icon>
+              <v-icon v-if="account_type=='System Admin'" @click="selectDeleteItem(key)" color="red">mdi-delete</v-icon>
             </v-card-actions>
           </v-card>
         </v-col>
