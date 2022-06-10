@@ -97,6 +97,7 @@ export default {
         form_data.append("user_id", localStorage.getItem("id"));
         form_data.append("title", this.discussions.title);
         form_data.append("descriptions", this.discussions.descriptions);
+        form_data.append("is_active", true);
         if (this.isAdd) {
           const response = await this.$axios
             .post("/discussions/", form_data, {

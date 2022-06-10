@@ -121,7 +121,7 @@
                   Choose User type:
               </div>
               <div>
-                  <v-select outlined v-model="events.account_type"  :items="['Resident', 'Admin', 'Board of Directors', 'Community Personnel']"></v-select>
+                  <v-select outlined v-model="events.account_type"  :items="['Resident', 'System Admin', 'Board of Directors', 'Community Personnel']"></v-select>
               </div>
           </v-col>
       </v-row>

@@ -147,7 +147,7 @@
            <v-list-item @click="route('edit_profile')">
             <v-list-item-title>Edit Profile</v-list-item-title>
           </v-list-item>
-          <v-list-item @click="route('usermanagement')" v-if="account_type!='Resident'">
+          <v-list-item @click="route('usermanagement')" v-if="account_type=='System Admin'">
             <v-list-item-title>Usermanagement</v-list-item-title> 
           </v-list-item>
           <v-list-item @click="route('messages')" v-if="account_type=='Resident'">

@@ -197,6 +197,9 @@ export default {
     items() {
       this.discussions = this.items;
       this.img_holder = this.items.image;
+       alert()
+      this.checkGoing()
+     
     },
   },
   created() {
@@ -224,7 +227,16 @@ export default {
     };
   },
   methods: {
-   
+  async  checkGoing(){
+       await this.$axios.post(`/going-user/`,{
+           event_id:this.items.id,
+           user_id:localStorage.getItem('id')
+         },{
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+    },
     loadData() {
       this.account_type = localStorage.getItem("account_type");
     },

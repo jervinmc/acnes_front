@@ -91,13 +91,13 @@
 <script>
 import moment from "moment";
 export default {
-  props: ["isOpen", "items", "isAdd"],
-  watch: {
+ watch:{
     items() {
       this.discussions = this.items;
       this.img_holder = this.items.image;
     },
   },
+  props: ["isOpen", "items", "isAdd"],
   data() {
     return {
       eventDate: false,
@@ -111,11 +111,29 @@ export default {
     };
   },
   methods: {
+    async  checkGoing(){
+       await this.$axios.post(`/going-user/`,{
+           event_id:this.items.id,
+           user_id:localStorage.getItem('id')
+         },{
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+    },
      formatDate(val){
       return moment(String(val)).format('YYYY-MM-DD HH:mm')
     },
     async going(){
         await this.$axios.patch(`/events/${this.items.id}/`,{no_going:1+parseInt(this.items.no_going)},{
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+     await this.$axios.post(`/going/`,{
+           event_id:this.items.id,
+           user_id:localStorage.getItem('id')
+         },{
           headers:{
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
