@@ -23,8 +23,12 @@
             height="300"
           ></v-img>
         </div>
+        <div>
+             {{details.name}}
+        </div>
         <div class="pt-5">
-          {{details.descriptions}}
+        Php  {{details.price}}
+     
         </div>
         <div align="start" class="text-h5 pt-5">
           <v-row>
@@ -48,7 +52,7 @@
              <v-col cols="auto">
               <div class="pt-0">
                 <v-btn
-                  @click="openQrCode=true"
+                  @click="paymaya"
                   x-large
                   color="black"
                   width="220"
@@ -56,7 +60,7 @@
                   outlined
                   height="40"
                 >
-                  View Paymaya QR Code
+                  Via Paymaya
                 </v-btn>
               </div>
             </v-col>
@@ -107,7 +111,28 @@ export default {
     };
   },
   methods: {
-    
+    async paymaya(){
+      const responses1 = this.$axios
+          .post(
+            `/buy-paymaya/`,
+            {
+              price: this.details.price,
+              product: this.details.name,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            }
+          )
+          .then((res) => {
+                window.open(
+            JSON.parse(res.data)['redirectUrl'],
+            '_blank' // <- This is what makes it open in a new window.
+          );
+       
+          })
+    },  
     async contactNow(){
 
       const responses1 = this.$axios
@@ -125,6 +150,7 @@ export default {
             }
           )
           .then(() => {
+        
             window.location.href="/messages"
           })
     },
