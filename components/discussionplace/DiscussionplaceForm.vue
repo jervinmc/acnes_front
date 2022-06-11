@@ -130,7 +130,7 @@
               >
                 View
               </v-btn>
-              <div align="end" v-if="account_type == 'Admin'">
+              <div align="end" v-if="account_type == 'System Admin'">
                 <v-icon @click="deleteItem(index)" color="red"
                   >mdi-delete</v-icon
                 >

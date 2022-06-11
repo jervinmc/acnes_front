@@ -197,8 +197,7 @@ export default {
     items() {
       this.discussions = this.items;
       this.img_holder = this.items.image;
-       alert()
-      this.checkGoing()
+     
      
     },
   },
@@ -265,11 +264,11 @@ export default {
         form_data.append("venue", this.events.venue);
         form_data.append(
           "is_approved",
-          this.account_type == "Admin" ? true : false
+          this.account_type == "System Admin" ? true : false
         );
         form_data.append(
           "event_type",
-          this.account_type == "Admin"
+          this.account_type == "System Admin"
             ? "official_event"
             : "community_led_event"
         );

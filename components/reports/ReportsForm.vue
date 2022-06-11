@@ -4,7 +4,7 @@
      <div style="height:500px" v-if="account_type=='Resident'">
       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSepqU_rhsX-JN2qC4AR0BRIqUA3uknJrFfxyiH1N5_BiWF0Ew/viewform?embedded=true" width="100%" height="100%" frameborder="0" marginheight="0" marginwidth="0">Google Forms is Loading…</iframe>
     </div>
-    <div style="height:500px" v-else-if="account_type!='Admin'">
+    <div style="height:500px" v-else-if="account_type!='System Admin'">
        <v-btn
           @click="view"
           x-large
